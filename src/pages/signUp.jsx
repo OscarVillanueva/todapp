@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import { Form } from "../utils/Utils";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Message from '../components/AlertMessage'
 import { 
     Container, 
     Flex, 
@@ -15,7 +19,35 @@ import {
 
 const SignUp = () => {
 
+    // Mostar u ocultar la contraseña
     const [ show, setShow ] = useState(false)
+
+    // Validación de formulario
+    const formik = useFormik({
+
+        initialValues: {
+            email: "",
+            password: ""
+        },
+
+        validationSchema:  Yup.object({
+
+            name: Yup.string().required("El nombre es obligatorio"),
+            email: Yup.string().email("Ingresa un email válido").required("El email es obligatorio"),
+            password: Yup.string().required("La contraseña es obligatoria")
+                                    .min(6, "La contraseña debe tener almenos 6 caracteres"),
+            confirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Las contraseñas deben ser iguales')
+
+        }),
+
+        onSubmit: values => {
+            console.log("enviando formulario", values);
+        }
+
+    })
+
+    // TODO: Agregar los eventos value, change and blur para los inputs
+    // TODO: Cambiar el border de los inputs a rojo
 
     return ( 
 
@@ -29,85 +61,114 @@ const SignUp = () => {
 
                 </Heading>
 
-                <Stack spacing = { 5 } mt = { 8 } width = "30%">
+                <Form
+                    onSubmit = { formik.handleSubmit }
+                >
+                    <Stack spacing = { 5 } mt = { 8 } width = "30%">
 
-                    <Text
-                        color = "white"
-                        fontWeight = "bold"
-                    >
-                        Correo Electrónico:
-                    </Text>
+                        <Text
+                            color = "white"
+                            fontWeight = "bold"
+                        >
+                            Correo Electrónico:
+                        </Text>
 
-                    <Input
-                        color = "white"
-                        focusBorderColor = "yellow.400" 
-                        placeholder = "ejemplo@ejemplo.com"
-                    />
+                        <Input
+                            id = "email"
+                            name = "email"
+                            color = "white"
+                            focusBorderColor = "yellow.400"
+                            placeholder = "ejemplo@ejemplo.com"
+                        />
 
-                    <Text
-                        color = "white"
-                        fontWeight = "bold"
-                    >
-                        Contraseña:
-                    </Text>
+                        { (formik.touched.email && formik.errors.email )
+                            && (
+                                <Message
+                                    status = "error"
+                                    message = { formik.errors.email }
+                                />
+                            ) 
+                        }
 
-                    <InputGroup size="md">
+                        <Text
+                            color = "white"
+                            fontWeight = "bold"
+                        >
+                            Contraseña:
+                        </Text>
+
+                        <InputGroup size="md">
+
+                            <Input
+                                color = "white"
+                                focusBorderColor = "yellow.400"
+                                pr="4.5rem"
+                                type={show ? "text" : "password"}
+                                placeholder="Ingresar contraseña"
+                            />
+
+                            <InputRightElement width="4.5rem">
+                                <Button
+                                    h="1.75rem"
+                                    size="sm"
+                                    onClick={ () => setShow( !show ) }
+                                >
+                                    { !show ? <ViewIcon w = {6} h = {6}/> : <ViewOffIcon w = {6} h = {6}/>}
+                                </Button>
+                            </InputRightElement>
+
+                        </InputGroup>
+
+                        { (formik.touched.password && formik.errors.password )
+                            && (
+                                <Message
+                                    status = "error"
+                                    message = { formik.errors.password }
+                                />
+                            ) 
+                        }
+
+                        <Text
+                            color = "white"
+                            fontWeight = "bold"
+                        >
+                            Confirmar Contraseña:
+                        </Text>
 
                         <Input
                             color = "white"
+                            type = "password"
                             focusBorderColor = "yellow.400"
-                            pr="4.5rem"
-                            type={show ? "text" : "password"}
-                            placeholder="Ingresar contraseña"
+                            placeholder = "Confirmar Contraseña"
                         />
 
-                        <InputRightElement width="4.5rem">
+                        { (formik.touched.confirmation && formik.errors.confirmation )
+                            && (
+                                <Message
+                                    status = "error"
+                                    message = { formik.errors.confirmation }
+                                />
+                            ) 
+                        }
 
-                            <Button 
-                                h="1.75rem" 
-                                size="sm" 
-                                onClick={ () => setShow( !show ) }
-                            >
-                                { !show ? <ViewIcon w = {6} h = {6}/> : <ViewOffIcon w = {6} h = {6}/>} 
-                            </Button>
-
-                        </InputRightElement>
-
-                    </InputGroup>
-
-                    <Text
-                        color = "white"
-                        fontWeight = "bold"
-                    >
-                        Confirmar Contraseña:
-                    </Text>
-
-                    <Input
-                        color = "white"
-                        type = "password"
-                        focusBorderColor = "yellow.400" 
-                        placeholder = "Confirmar Contraseña"
-                    />
-
-                    <Button
-                        colorScheme = "yellow"
-                        onClick = { () => console.log("Iniciando") }
-                    >
-                        Crear Cuenta
-                    </Button>
-
-                    <Link
-                        to = "/"
-                    >
-                        <Text
-                            color = "white"
-                            align = "center"
+                        <Button
+                            colorScheme = "yellow"
+                            onClick = { () => console.log("Iniciando") }
                         >
-                            ¿Ya no tienes cuenta?
-                        </Text>
-                    </Link>
-
-                </Stack>
+                            Crear Cuenta
+                        </Button>
+                        <Link
+                            to = "/"
+                        >
+                            <Text
+                                color = "white"
+                                align = "center"
+                            >
+                                ¿Ya no tienes cuenta?
+                            </Text>
+                        </Link>
+                    </Stack>
+                </Form>
 
             </Flex>
 
