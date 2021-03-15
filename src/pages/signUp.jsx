@@ -46,8 +46,6 @@ const SignUp = () => {
 
     })
 
-    // TODO: Agregar los eventos value, change and blur para los inputs
-    // TODO: Cambiar el border de los inputs a rojo
 
     return ( 
 
@@ -77,8 +75,11 @@ const SignUp = () => {
                             id = "email"
                             name = "email"
                             color = "white"
-                            focusBorderColor = "yellow.400"
+                            focusBorderColor = { formik.errors.email ? "red.400" :  "yellow.400"}
                             placeholder = "ejemplo@ejemplo.com"
+                            value = { formik.values.email }
+                            onChange = { formik.handleChange }
+                            onBlur = { formik.handleBlur }
                         />
 
                         { (formik.touched.email && formik.errors.email )
@@ -100,11 +101,16 @@ const SignUp = () => {
                         <InputGroup size="md">
 
                             <Input
+                                id = "password"
+                                name = "password"
                                 color = "white"
-                                focusBorderColor = "yellow.400"
+                                focusBorderColor = { formik.errors.password ? "red.400" :  "yellow.400"}
                                 pr="4.5rem"
                                 type={show ? "text" : "password"}
                                 placeholder="Ingresar contraseña"
+                                value = { formik.values.password }
+                                onChange = { formik.handleChange }
+                                onBlur = { formik.handleBlur }
                             />
 
                             <InputRightElement width="4.5rem">
@@ -136,10 +142,15 @@ const SignUp = () => {
                         </Text>
 
                         <Input
+                            id = "confirmation"
+                            name = "confirmation"
                             color = "white"
                             type = "password"
-                            focusBorderColor = "yellow.400"
+                            focusBorderColor = { formik.errors.confirmation ? "red.400" :  "yellow.400"}
                             placeholder = "Confirmar Contraseña"
+                            value = { formik.values.confirmation }
+                            onChange = { formik.handleChange }
+                            onBlur = { formik.handleBlur }
                         />
 
                         { (formik.touched.confirmation && formik.errors.confirmation )

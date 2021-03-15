@@ -20,6 +20,8 @@ import {
 
 const Login = () => {
 
+    console.log( process.env.REACT_APP_BACKEND_URL, "url" )
+
     // State para mostrar el contenido del input de contraseña
     const [ show, setShow ] = useState(false)
 
@@ -74,7 +76,7 @@ const Login = () => {
                             id = "email"
                             name = "email"
                             color = "white"
-                            focusBorderColor = "yellow.400"
+                            focusBorderColor = { formik.errors.email ? "red.400" :  "yellow.400"}
                             placeholder = "ejemplo@ejemplo.com"
                             value = { formik.values.email }
                             onChange = { formik.handleChange }
@@ -103,7 +105,7 @@ const Login = () => {
                                 id = "password"
                                 name = "password"
                                 color = "white"
-                                focusBorderColor = "yellow.400"
+                                focusBorderColor = { formik.errors.password ? "red.400" :  "yellow.400"}
                                 pr="4.5rem"
                                 type={show ? "text" : "password"}
                                 placeholder="Ingresar contraseña"
