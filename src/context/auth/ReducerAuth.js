@@ -4,11 +4,19 @@ import {
     GET_USER,
     SUCCESS_SIGNIN,
     ERROR_SIGNIN,
-    SIGN_OUT
+    SIGN_OUT,
+    START_SPINNER
 } from "../../types";
 
-export default (state, action) => {
+const AuthReducer = (state, action) => {
+    
     switch (action.type) {
+
+        case START_SPINNER:
+            return {
+                ...state,
+                loading: true
+            }
 
         case SUCCESS_SIGNIN:
         case SUCCESS_SIGNUP:
@@ -45,3 +53,5 @@ export default (state, action) => {
             return state
     }
 }
+
+export default AuthReducer

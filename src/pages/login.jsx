@@ -15,7 +15,7 @@ import {
     Button, 
     InputRightElement,
     Text,
-    useToast
+    // useToast
 } from "@chakra-ui/react"
 import Loading from '../components/Spinner';
 
@@ -27,7 +27,7 @@ const Login = () => {
     const [ isLoading, setisLoading ] = useState(false)
 
     // Para usar las tostadas de chakra
-    const toast = useToast()
+    // const toast = useToast()
 
     // Validación de formulario
     const formik = useFormik({

@@ -10,7 +10,8 @@ import {
     GET_USER,
     SUCCESS_SIGNIN,
     ERROR_SIGNIN,
-    SIGN_OUT
+    SIGN_OUT,
+    START_SPINNER
 } from "../../types";
 
 const AuthState = props => {
@@ -20,7 +21,7 @@ const AuthState = props => {
         authenticated: null,
         user: null,
         message: null,
-        loading: true
+        loading: false
     }
 
     const [state, dispatch] = useReducer(ReducerAuth, initialState)
@@ -29,6 +30,11 @@ const AuthState = props => {
     const registerUser = async data => {
 
         try {
+
+            dispatch({
+                type: START_SPINNER,
+                payload: true
+            })
             
             const response = await axiosClient.post("/api/users", data)
 
@@ -64,6 +70,11 @@ const AuthState = props => {
         }
 
         try {
+
+            dispatch({
+                type: START_SPINNER,
+                payload: true
+            })
             
             const response = await axiosClient.get("/api/auth")
 

@@ -9,6 +9,7 @@ const Loading = ({ children, show, message}) => {
         
         if ( show ) onToggle()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [show])
 
     return ( 
@@ -32,6 +33,7 @@ const Loading = ({ children, show, message}) => {
                         <Spinner
                             color = "yellow.400"
                             size = "xl"
+                            speed = "0.65s"
                         />
                         <Text
                             mt = { 4 }

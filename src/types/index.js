@@ -1,3 +1,5 @@
+export const START_SPINNER = "START_SPINNER"
+
 export const PROJECT_FORM = "PROJECT_FORM"
 export const FETCH_PROJECTS = "FETCH_PROJECTS"
 export const ADD_PROJECT = "ADD_PROJECT"
