@@ -119,6 +119,7 @@ const SignUp = () => {
                                 id = "email"
                                 name = "email"
                                 color = "white"
+                                data-cy = "email-signup"
                                 focusBorderColor = { formik.errors.email ? "red.400" :  "yellow.400"}
                                 placeholder = "ejemplo@ejemplo.com"
                                 value = { formik.values.email }
@@ -143,6 +144,7 @@ const SignUp = () => {
                                 <Input
                                     id = "password"
                                     name = "password"
+                                    data-cy = "password-signup"
                                     color = "white"
                                     focusBorderColor = { formik.errors.password ? "red.400" :  "yellow.400"}
                                     pr="4.5rem"
@@ -179,6 +181,7 @@ const SignUp = () => {
                             <Input
                                 id = "confirmation"
                                 name = "confirmation"
+                                data-cy = "confirmation-signup"
                                 color = "white"
                                 focusBorderColor = { formik.errors.confirmation ? "red.400" :  "yellow.400"}
                                 pr="4.5rem"
@@ -199,6 +202,7 @@ const SignUp = () => {
                             <Button
                                 type = "submit"
                                 colorScheme = "yellow"
+                                data-cy = "submit-signup"
                             >
                                 Crear Cuenta
                             </Button>

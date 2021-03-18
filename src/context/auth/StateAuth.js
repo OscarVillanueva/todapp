@@ -96,6 +96,11 @@ const AuthState = props => {
 
         try {
             
+            dispatch({
+                type: START_SPINNER,
+                payload: true
+            })
+
             const response = await axiosClient.post("/api/auth", data)
 
             dispatch({

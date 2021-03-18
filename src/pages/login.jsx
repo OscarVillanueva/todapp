@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Message from '../components/AlertMessage'
 import { Form } from "../utils/Utils";
+import contextAuth from '../context/auth/ContextAuth'
 import { 
     Container, 
     Flex, 
@@ -15,7 +16,7 @@ import {
     Button, 
     InputRightElement,
     Text,
-    // useToast
+    useToast
 } from "@chakra-ui/react"
 import Loading from '../components/Spinner';
 
@@ -24,10 +25,14 @@ const Login = () => {
     // State para mostrar el contenido del input de contraseña
     const [ show, setShow ] = useState(false)
 
-    const [ isLoading, setisLoading ] = useState(false)
+    // Context de auth
+    const { message, authenticated, login, loading } = useContext( contextAuth )
+
+    // Navegación
+    const navigate = useNavigate()
 
     // Para usar las tostadas de chakra
-    // const toast = useToast()
+    const toast = useToast()
 
     // Validación de formulario
     const formik = useFormik({
@@ -45,11 +50,29 @@ const Login = () => {
         }),
 
         onSubmit: values => {
-            console.log("enviando formulario", values);
-            setisLoading( true )
+
+            login( values )
+
         }
 
     })
+
+    // Revisar cuando ser termino de registrar
+    useEffect(() => {
+
+        if ( message )
+            toast({
+                title: "Sucedió un error",
+                description: message.msg,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            })
+
+        if ( authenticated ) navigate("/home")
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [message, authenticated])
 
     // Revisamos si hay algún error
     const hasError = (formik, input) => {
@@ -62,7 +85,7 @@ const Login = () => {
 
     return ( 
 
-        <Loading show = { isLoading } message = "Revisando tus credenciales">
+        <Loading show = { loading } message = "Revisando tus credenciales">
 
             <Container maxWidth h = "100vh" bg = "green.800" centerContent>
                 
