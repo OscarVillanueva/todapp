@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import contextAuth from '../context/auth/ContextAuth'
-import useAuth from '../hook/useAuth'
+import Layout from '../components/Layout'
 
 const Home = () => {
 
@@ -9,11 +9,13 @@ const Home = () => {
 
     const navigate = useNavigate()
 
-    useAuth()
-
     return ( 
 
-        <h1>hola</h1>
+        <Layout>
+
+            <h1>hola</h1>
+            
+        </Layout>
 
     );
 }
