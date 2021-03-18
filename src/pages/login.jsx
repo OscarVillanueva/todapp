@@ -183,7 +183,7 @@ const Login = () => {
 
                             <Link
                                 to = "/sign-up"
-                                >
+                            >
                                 <Text
                                     color = "white"
                                     align = "center"

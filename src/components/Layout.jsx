@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import { Button, Container, Flex, Icon, Stack, Tooltip, Box, Text } from '@chakra-ui/react'
 import { ChevronLeftIcon } from "@chakra-ui/icons";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import contextAuth from '../context/auth/ContextAuth'
 import useAuth from '../hook/useAuth'
 import { GiExitDoor } from "react-icons/gi";
@@ -13,13 +13,14 @@ const Layout = ({ children }) => {
     useAuth()
 
     // Context
-    const { authenticated } = useContext( contextAuth )
+    const { authenticated, logout } = useContext( contextAuth )
 
     // El botón de regresar
     const back = useRef()
 
     // Ubicación
     const location = useLocation()
+    const navigate = useNavigate()
 
     useEffect(() => {
         
@@ -27,6 +28,14 @@ const Layout = ({ children }) => {
             back.current.style.visibility = "hidden"
 
     }, [ back ])
+
+    // Finalizar la sesión
+    const endSesion = () => {
+        
+        logout()
+        navigate("/")
+
+    }
 
     return authenticated &&  ( 
 
@@ -61,6 +70,7 @@ const Layout = ({ children }) => {
                             colorScheme = "transparent"
                             leftIcon = { <ChevronLeftIcon /> }
                             ref = { back }
+                            onClick = { () => navigate("/home") }
                         >
 
                             <Text
@@ -79,6 +89,7 @@ const Layout = ({ children }) => {
 
                         <Button
                             colorScheme = "transparent"
+                            onClick = { endSesion }
                         >
 
                             <Icon
