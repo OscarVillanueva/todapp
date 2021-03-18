@@ -111,6 +111,7 @@ const Login = () => {
                             <Input
                                 id = "email"
                                 name = "email"
+                                data-cy = "email-login"
                                 color = "white"
                                 focusBorderColor = { hasError( formik, "email" ) }
                                 placeholder = "ejemplo@ejemplo.com"
@@ -140,6 +141,7 @@ const Login = () => {
                                 <Input
                                     id = "password"
                                     name = "password"
+                                    data-cy = "password-login"
                                     color = "white"
                                     focusBorderColor = { hasError( formik, "password" ) }
                                     pr="4.5rem"
@@ -172,6 +174,7 @@ const Login = () => {
 
                             <Button
                                 type = "submit"
+                                data-cy = "submit-login"
                                 colorScheme = "yellow"
                             >
                                 Iniciar Sesión
