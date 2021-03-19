@@ -3,7 +3,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Message from '../components/AlertMessage'
+import Message from '../components/utils/AlertMessage'
 import { Form } from "../utils/Utils";
 import contextAuth from '../context/auth/ContextAuth'
 import { 
@@ -18,7 +18,7 @@ import {
     Text,
     useToast
 } from "@chakra-ui/react"
-import Loading from '../components/Spinner';
+import Loading from '../components/utils/Spinner';
 
 const Login = () => {
 

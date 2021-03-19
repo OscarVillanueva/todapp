@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import { Button, Container, Flex, Icon, Stack, Tooltip, Box, Text } from '@chakra-ui/react'
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, AddIcon } from "@chakra-ui/icons";
 import { useNavigate, useLocation } from "react-router-dom";
-import contextAuth from '../context/auth/ContextAuth'
-import useAuth from '../hook/useAuth'
+import contextAuth from '../../context/auth/ContextAuth'
+import useAuth from '../../hook/useAuth'
 import { GiExitDoor } from "react-icons/gi";
 
 
@@ -17,6 +17,7 @@ const Layout = ({ children }) => {
 
     // El botón de regresar
     const back = useRef()
+    const addProject = useRef()
 
     // Ubicación
     const location = useLocation()
@@ -24,10 +25,17 @@ const Layout = ({ children }) => {
 
     useEffect(() => {
         
-        if( back.current && location.pathname === "/home")
+        if( back.current && location.pathname === "/home") {
             back.current.style.visibility = "hidden"
+            addProject.current.style.visibility = "visible"
+        }
+        else {
+            back.current.style.visibility = "visible"
+            addProject.current.style.visibility = "hidden"
+        }
 
-    }, [ back ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ back, addProject ])
 
     // Finalizar la sesión
     const endSesion = () => {
@@ -67,6 +75,7 @@ const Layout = ({ children }) => {
                     >
 
                         <Button
+                            visibility = "hidden"
                             colorScheme = "transparent"
                             leftIcon = { <ChevronLeftIcon /> }
                             ref = { back }
@@ -74,6 +83,7 @@ const Layout = ({ children }) => {
                         >
 
                             <Text
+                                color = "yellow.400"
                             >
                                 Proyectos
                             </Text>
@@ -81,6 +91,24 @@ const Layout = ({ children }) => {
                         </Button>
 
                     </Tooltip>
+
+                    <Tooltip
+                        hasArrow
+                        label = "Agregar proyecto"
+                    >
+
+                        <Button
+                            onClick = { () => navigate("/home") }
+                            colorScheme = "yellow"
+                            ref = { addProject }
+                        >
+
+                            <AddIcon />
+
+                        </Button>
+
+                    </Tooltip>
+
 
                     <Tooltip
                         hasArrow
@@ -94,8 +122,9 @@ const Layout = ({ children }) => {
 
                             <Icon
                                 as = { GiExitDoor }
-                                w = { 8 }
-                                h = { 8 }
+                                color = "yellow.400"
+                                w = { 10 }
+                                h = { 10 }
                             />
 
                         </Button>

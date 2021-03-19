@@ -1,20 +1,23 @@
-import React, { useContext, useEffect } from 'react'
-import { useNavigate } from "react-router-dom";
-import contextAuth from '../context/auth/ContextAuth'
-import Layout from '../components/Layout'
+import React, { } from 'react'
+import { Heading } from "@chakra-ui/react"
+import Layout from '../components/utils/Layout'
+import ProjectList from '../components/proyects/ProjectList'
 
 const Home = () => {
-
-    const { authenticated, loading, token } = useContext( contextAuth )
-
-    const navigate = useNavigate()
 
     return ( 
 
         <Layout>
 
-            <h1>hola</h1>
-            
+            <Heading
+                align = "center"
+                color = "white"
+            >
+                Proyectos Activos
+            </Heading>
+
+            <ProjectList />
+
         </Layout>
 
     );

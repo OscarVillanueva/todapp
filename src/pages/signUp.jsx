@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form } from "../utils/Utils";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Message from '../components/AlertMessage'
-import LoadingSpinner from '../components/Spinner';
+import Message from '../components/utils/AlertMessage'
+import LoadingSpinner from '../components/utils/Spinner';
 import ContextAuth from '../context/auth/ContextAuth'
 import { 
     Container, 
