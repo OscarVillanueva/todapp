@@ -27,9 +27,15 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
 
             <ModalContent>
 
-                <ModalHeader>Agregar nuevo proyecto</ModalHeader>
+                <ModalHeader
+                    color = "white"
+                >
+                    Agregar nuevo proyecto
+                </ModalHeader>
 
-                <ModalCloseButton />
+                <ModalCloseButton 
+                    color = "white"
+                />
 
                 <ModalBody>
                     
@@ -41,6 +47,7 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
                     </Text>
 
                     <Input
+                        color = "white"
                         mt = { 8 }
                         id = "projectName"
                         name = "projectName"
@@ -51,7 +58,7 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
 
                 <ModalFooter>
 
-                    <Button variant="ghost" onClick={onClose}>
+                    <Button colorScheme = "red" onClick={onClose}>
                         Cancelar
                     </Button>
 

@@ -15,7 +15,7 @@ const components = {
         // setup light/dark mode component defaults
         baseStyle: props => ({
             dialog: {
-                bg: mode('#1A202C', '#1A202C')(props),
+                bg: '#1A202C',
             },
         }),
     },
