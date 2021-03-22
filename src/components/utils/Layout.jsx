@@ -6,9 +6,10 @@ import contextAuth from '../../context/auth/ContextAuth'
 import useAuth from '../../hook/useAuth'
 import { GiExitDoor } from "react-icons/gi";
 import AddProject from '../projects/AddProject';
+import LoadingSpinner from '../utils/Spinner'
 
 
-const Layout = ({ children }) => {
+const Layout = ({ children, spinner, spinnerText }) => {
     
     // Revisar si estamos autenticados
     useAuth()
@@ -56,100 +57,97 @@ const Layout = ({ children }) => {
 
     return authenticated &&  ( 
 
-        <Container maxWidth h = "100vh" bg = "green.800">
+        <LoadingSpinner
+            show = { spinner }
+            message = { spinnerText }
+        >
+            <Container maxWidth h = "100vh" bg = "green.800">
 
-            <Stack>
 
-                <Box
-                    width = "96%"
-                    height = "90vh"
-                    margin = " 0 auto "
-                    padding = { 8 }
-                >
+                <Stack>
 
-                    { children }
-
-                </Box>
-
-                <Flex
-                    style = {{ width: "96%", margin: "0 auto" }}
-                    justify = "space-between"
-                    align = "center"
-                    margin = "0 auto"
-                >
-
-                    <Tooltip
-                        hasArrow
-                        label = "Regresar a Proyectos"
+                    <Box
+                        width = "96%"
+                        height = "90vh"
+                        margin = " 0 auto "
+                        padding = { 8 }
                     >
 
-                        <Button
-                            visibility = "hidden"
-                            colorScheme = "transparent"
-                            leftIcon = { <ChevronLeftIcon /> }
-                            ref = { back }
-                            onClick = { () => navigate("/home") }
+                        { children }
+                    </Box>
+
+                    <Flex
+                        style = {{ width: "96%", margin: "0 auto" }}
+                        justify = "space-between"
+                        align = "center"
+                        margin = "0 auto"
+                    >
+
+                        <Tooltip
+                            hasArrow
+                            label = "Regresar a Proyectos"
                         >
 
-                            <Text
-                                color = "yellow.400"
+                            <Button
+                                visibility = "hidden"
+                                colorScheme = "transparent"
+                                leftIcon = { <ChevronLeftIcon /> }
+                                ref = { back }
+                                onClick = { () => navigate("/home") }
                             >
-                                Proyectos
-                            </Text>
+                                <Text
+                                    color = "yellow.400"
+                                >
+                                    Proyectos
+                                </Text>
+                            </Button>
 
-                        </Button>
+                        </Tooltip>
 
-                    </Tooltip>
-
-                    <Tooltip
-                        hasArrow
-                        label = "Agregar proyecto"
-                    >
-
-                        <Button
-                            onClick = { onOpen }
-                            colorScheme = "yellow"
-                            ref = { addProject }
+                        <Tooltip
+                            hasArrow
+                            label = "Agregar proyecto"
                         >
 
-                            <AddIcon />
+                            <Button
+                                onClick = { onOpen }
+                                colorScheme = "yellow"
+                                ref = { addProject }
+                            >
+                                <AddIcon />
+                            </Button>
 
-                        </Button>
+                        </Tooltip>
 
-                    </Tooltip>
+                        <AddProject
+                            isOpen ={ isOpen }
+                            onOpen ={ onOpen }
+                            onClose ={ onClose }
+                        />
 
-                    <AddProject
-                        isOpen ={ isOpen }
-                        onOpen ={ onOpen }
-                        onClose ={ onClose }
-                    />
-
-
-                    <Tooltip
-                        hasArrow
-                        label = "Cerrar Sesión"
-                    >
-
-                        <Button
-                            colorScheme = "transparent"
-                            onClick = { endSesion }
+                        <Tooltip
+                            hasArrow
+                            label = "Cerrar Sesión"
                         >
 
-                            <Icon
-                                as = { GiExitDoor }
-                                color = "yellow.400"
-                                w = { 10 }
-                                h = { 10 }
-                            />
+                            <Button
+                                colorScheme = "transparent"
+                                onClick = { endSesion }
+                            >
+                                <Icon
+                                    as = { GiExitDoor }
+                                    color = "yellow.400"
+                                    w = { 10 }
+                                    h = { 10 }
+                                />
+                            </Button>
 
-                        </Button>
+                        </Tooltip>
+                    </Flex>
+                </Stack>
 
-                    </Tooltip>
-
-                </Flex>
-            </Stack>
-
-        </Container>
+            </Container>
+        </LoadingSpinner>
 
     );
 }

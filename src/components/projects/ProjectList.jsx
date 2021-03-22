@@ -1,49 +1,25 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Heading, Grid, Flex } from '@chakra-ui/react';
 import Project from './Project'
+import moment from 'moment'
 
-const ProjectList = () => {
+moment.locale("es")
 
-    const list = [
+const ProjectList = ({ projects }) => {
+
+    // Contenedor agregar el scroll si es necesario
+    const grid = useRef()
+
+    // Revisar la cantidad de proyectos
+    useEffect(() => {
         
-        {
-            id: 1,
-            projectName: "Test 1",
-            creationDate: "22 / 22 / 22"
-        },
-        {
-            id: 2,
-            projectName: "Test 2",
-            creationDate: "22 / 22 / 22"
-        },
-        {
-            id: 3,
-            projectName: "Test 3",
-            creationDate: "22 / 22 / 22"
-        },
-        {
-            id: 4,
-            projectName: "Test 4",
-            creationDate: "22 / 22 / 22"
-        },
-        {
-            id: 6,
-            projectName: "Test 5",
-            creationDate: "22 / 22 / 22"
-        },
-        {
-            id: 7,
-            projectName: "Test 6",
-            creationDate: "22 / 22 / 22"
-        },
-        {
-            id: 8,
-            projectName: "Test 7",
-            creationDate: "22 / 22 / 22"
-        }
-    ]
+        if ( grid.current && projects.length > 12 )
+            grid.current.style.overflow = "scroll"
 
-    return list.length > 0 
+    }, [projects])
+
+    return projects.length > 0 
+
         ? (
             
             <Grid
@@ -51,16 +27,17 @@ const ProjectList = () => {
                 gap = { 8 }
                 mt = { 16 }
                 maxHeight = "85%"
-                overflow = "scroll"
+                // overflow = "scroll"
+                ref = { grid }
             >
 
-                {list.map( project  => (
+                {projects.map( project  => (
                 
                     <Project
                     
-                        key = { project.id }
+                        key = { project._id }
                         title = { project.projectName }
-                        date = { project.creationDate }
+                        date = { moment( project.creationDate ).format("MMMM Do YYYY") }
 
                     />
 

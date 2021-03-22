@@ -4,6 +4,7 @@ import SignUp from './pages/signUp';
 import Home from "./pages/Home";
 import authToken from './config/authToken'
 import StateAuth from './context/auth/StateAuth'
+import StateProject from './context/projects/StateProject'
 
 // Revisamos si tenemos token
 const token = localStorage.getItem("token")
@@ -14,24 +15,28 @@ function App() {
   return (
     
     <StateAuth>
-      <Routes>
+      <StateProject>
 
-        <Route
-          path = "/"
-          element = { <Login /> }
-        />
+          <Routes>
+            
+            <Route
+              path = "/"
+              element = { <Login /> }
+            />
+            
+            <Route
+              path = "/sign-up"
+              element = { <SignUp /> }
+            />
+            
+            <Route
+              path = "/home"
+              element = { <Home /> }
+            />
+            
+          </Routes>
 
-        <Route
-          path = "/sign-up"
-          element = { <SignUp /> }
-        />
-
-        <Route
-          path = "/home"
-          element = { <Home /> }
-        />
-
-      </Routes>
+      </StateProject>
     </StateAuth>
     
   );

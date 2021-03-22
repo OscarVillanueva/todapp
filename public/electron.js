@@ -14,7 +14,8 @@ function windowApp() {
         minHeight: 600,
         simpleFullscreen: true,
         center: true,
-        show: true
+        show: true,
+        tabbingIdentifier: "Todaap"
         // resizable: false
     })
 
