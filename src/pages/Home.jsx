@@ -1,7 +1,8 @@
 import React, { } from 'react'
 import { Heading } from "@chakra-ui/react"
 import Layout from '../components/utils/Layout'
-import ProjectList from '../components/proyects/ProjectList'
+import ProjectList from '../components/projects/ProjectList'
+import LoadingProjects from '../components/projects/LoadingProjects'
 
 const Home = () => {
 

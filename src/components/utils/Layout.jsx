@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { Button, Container, Flex, Icon, Stack, Tooltip, Box, Text } from '@chakra-ui/react'
+import { Button, Container, Flex, Icon, Stack, Tooltip, Box, Text, useDisclosure } from '@chakra-ui/react'
 import { ChevronLeftIcon, AddIcon } from "@chakra-ui/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import contextAuth from '../../context/auth/ContextAuth'
 import useAuth from '../../hook/useAuth'
 import { GiExitDoor } from "react-icons/gi";
+import AddProject from '../projects/AddProject';
 
 
 const Layout = ({ children }) => {
@@ -23,16 +24,24 @@ const Layout = ({ children }) => {
     const location = useLocation()
     const navigate = useNavigate()
 
+    // Modal para agregar al proyecto
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     useEffect(() => {
         
-        if( back.current && location.pathname === "/home") {
-            back.current.style.visibility = "hidden"
-            addProject.current.style.visibility = "visible"
+        if( addProject.current && back.current ) {
+
+            if( location.pathname === "/home" ) {
+                back.current.style.visibility = "hidden"
+                addProject.current.style.visibility = "visible"
+            }
+            else {
+                back.current.style.visibility = "visible"
+                addProject.current.style.visibility = "hidden"
+            }
+
         }
-        else {
-            back.current.style.visibility = "visible"
-            addProject.current.style.visibility = "hidden"
-        }
+
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ back, addProject ])
@@ -98,7 +107,7 @@ const Layout = ({ children }) => {
                     >
 
                         <Button
-                            onClick = { () => navigate("/home") }
+                            onClick = { onOpen }
                             colorScheme = "yellow"
                             ref = { addProject }
                         >
@@ -108,6 +117,12 @@ const Layout = ({ children }) => {
                         </Button>
 
                     </Tooltip>
+
+                    <AddProject
+                        isOpen ={ isOpen }
+                        onOpen ={ onOpen }
+                        onClose ={ onClose }
+                    />
 
 
                     <Tooltip
