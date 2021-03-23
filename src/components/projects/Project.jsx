@@ -73,6 +73,7 @@ const Projects = ({ project }) => {
             </Text>
 
             <Button
+                data-cy = "delete-project-btn"
                 onClick = { removeCard }
                 mt = { 4 }
                 colorScheme = "red"

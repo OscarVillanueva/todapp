@@ -110,6 +110,7 @@ const Layout = ({ children, spinner, spinnerText }) => {
                         >
 
                             <Button
+                                data-cy = "add-project-btn"
                                 onClick = { onOpen }
                                 colorScheme = "yellow"
                                 ref = { addProject }

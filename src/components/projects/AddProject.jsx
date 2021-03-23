@@ -65,13 +65,14 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
                         color = "white"
                         fontWeight = "bold"
                     >
-                        Correo Electrónico:
+                        Nombre del proyecto
                     </Text>
 
                     <Input
                         color = "white"
                         mt = { 8 }
                         id = "projectName"
+                        data-cy = "projectName"
                         name = "projectName"
                         placeholder = "Tu nuevo fantástico proyecto"
                         onChange = { e => setProjectName( e.target.value ) }
@@ -89,6 +90,7 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
                     <Button 
                         colorScheme="yellow" 
                         ml={ 3 } 
+                        data-cy = "addProject"
                         onClick = { uploadProject }
                         disabled = { projectName.trim().length === 0 ? true : false }
                     >

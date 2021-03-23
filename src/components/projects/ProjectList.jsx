@@ -42,6 +42,7 @@ const ProjectList = ({ projects }) => {
                 
 
                     <motion.div
+                        data-cy = "project"
                         key = { project._id }
                         initial={{ scale: 0 }}
                         animate={{ rotate: 360, scale: 1 }}

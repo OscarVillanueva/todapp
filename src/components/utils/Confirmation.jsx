@@ -65,6 +65,7 @@ const Confirmation = ({ config, isOpen, onClose }) => {
                         colorScheme = { buttonScheme }
                         ml={ 3 } 
                         onClick = { operation }
+                        data-cy = "btn-confirmation-alert"
                     >
                         { buttonText }
                     </Button>
