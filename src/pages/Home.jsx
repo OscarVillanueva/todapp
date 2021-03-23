@@ -23,7 +23,8 @@ const Home = () => {
 
     useEffect(() => {
         
-        if ( message )
+        if ( message ) {
+
             toast({
                 title: "Sucedió un error",
                 description: message.msg,
@@ -32,16 +33,12 @@ const Home = () => {
                 isClosable: true,
             })
 
-        if( message.category === -1 ) logout()
+            if( message.category === -1 ) logout()
+        }
+
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [message])
-
-    useEffect(() => {
-        
-        console.log(projects)
-
-    }, [projects])
 
     return ( 
 

@@ -1,9 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { Heading, Grid, Flex } from '@chakra-ui/react';
 import Project from './Project'
-import moment from 'moment'
-
-moment.locale("es")
 
 const ProjectList = ({ projects }) => {
 
@@ -13,8 +10,17 @@ const ProjectList = ({ projects }) => {
     // Revisar la cantidad de proyectos
     useEffect(() => {
         
-        if ( grid.current && projects.length > 12 )
-            grid.current.style.overflow = "scroll"
+        if( grid.current ) {
+
+            if ( projects.length > 12 )
+                grid.current.style.overflow = "scroll"
+
+            else 
+                grid.current.removeAttribute("style")
+            
+
+        }
+
 
     }, [projects])
 
@@ -36,8 +42,7 @@ const ProjectList = ({ projects }) => {
                     <Project
                     
                         key = { project._id }
-                        title = { project.projectName }
-                        date = { moment( project.creationDate ).format("MMMM Do YYYY") }
+                        project = { project }
 
                     />
 

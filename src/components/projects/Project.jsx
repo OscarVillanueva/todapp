@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Text, Button } from '@chakra-ui/react';
 import styled from '@emotion/styled'
+import moment from 'moment'
+import ContextProject from '../../context/projects/ContextProject'
 
 const Card = styled.div`
     
@@ -18,12 +20,19 @@ const Card = styled.div`
 
 `
 
-const Projects = ({ title, date }) => {
+const Projects = ({ project }) => {
 
-    const deleteProject = e => {
+    const { deleteProject } = useContext( ContextProject )
+
+    const { projectName, creationDate, _id } = project
+
+    moment.locale("es")
+
+    const removeCard = e => {
         
         e.stopPropagation()
-        console.log("Eliminando . . .")
+        
+        deleteProject( _id )
 
     }
 
@@ -38,17 +47,17 @@ const Projects = ({ title, date }) => {
                 fontWeight = "bold"
                 color = "black"
             >
-                { title }
+                { projectName }
             </Text>
 
             <Text
                 color = "black"
             >
-                { date }
+                { moment( creationDate ).format( "MMMM Do YYYY" ) }
             </Text>
 
             <Button
-                onClick = { deleteProject }
+                onClick = { removeCard }
                 mt = { 4 }
                 colorScheme = "red"
                 width = "100%"

@@ -57,7 +57,8 @@ const ProjectReducer = (state, action) => {
             return {
                 ...state,
                 projects: state.projects.filter(project => project._id !== action.payload),
-                currentProject: null
+                currentProject: null,
+                loading: false
             }
 
         case ERROR_PROJECT:

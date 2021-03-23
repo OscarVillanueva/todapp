@@ -130,6 +130,11 @@ const StateProject = props => {
 
         try {
 
+            dispatch({
+                type: START_SPINNER,
+                payload: true
+            })
+
             await axiosClient.delete(`/api/projects/${idProject}`)
 
             dispatch({
