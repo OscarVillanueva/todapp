@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { Heading, Grid, Flex } from '@chakra-ui/react';
+import { motion } from "framer-motion";
 import Project from './Project'
 
 const ProjectList = ({ projects }) => {
@@ -39,12 +40,24 @@ const ProjectList = ({ projects }) => {
 
                 {projects.map( project  => (
                 
-                    <Project
-                    
-                        key = { project._id }
-                        project = { project }
 
-                    />
+                    <motion.div
+                        key = { project._id }
+                        initial={{ scale: 0 }}
+                        animate={{ rotate: 360, scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 260,
+                            damping: 20
+                        }}
+                    >
+
+                        <Project
+                            project = { project }
+                        />
+
+                    </motion.div>
+
 
                 ))}
 

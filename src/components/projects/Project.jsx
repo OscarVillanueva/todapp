@@ -1,8 +1,11 @@
 import React, { useContext } from 'react'
-import { Text, Button } from '@chakra-ui/react';
+import { Text, Button, useDisclosure } from '@chakra-ui/react';
 import styled from '@emotion/styled'
 import moment from 'moment'
 import ContextProject from '../../context/projects/ContextProject'
+import Confirmation from '../utils/Confirmation'
+
+moment.locale("es")
 
 const Card = styled.div`
     
@@ -22,17 +25,30 @@ const Card = styled.div`
 
 const Projects = ({ project }) => {
 
-    const { deleteProject } = useContext( ContextProject )
-
     const { projectName, creationDate, _id } = project
 
-    moment.locale("es")
+    const { deleteProject } = useContext( ContextProject )
 
+    // Modal la confirmación
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    // Abrimos la alerta
     const removeCard = e => {
         
         e.stopPropagation()
+
+        onOpen()
         
-        deleteProject( _id )
+    }
+
+    // Configuración de la alerta
+    const config = {
+        
+        buttonText: "Eliminar",
+        buttonScheme: "red",
+        action: () => deleteProject( _id ),
+        title: "Eliminar proyecto",
+        message: "¿Estás seguro?, esta acción no se puede deshacer"
 
     }
 
@@ -64,7 +80,14 @@ const Projects = ({ project }) => {
             >
                 Eliminar
             </Button>
-            
+
+            <Confirmation 
+
+                isOpen = { isOpen }
+                onClose = { onClose }
+                config = { config }
+
+            />
 
         </Card>
 
