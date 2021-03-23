@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Text, Button, useDisclosure } from '@chakra-ui/react';
+import { useNavigate } from "react-router-dom";
 import styled from '@emotion/styled'
 import moment from 'moment'
 import ContextProject from '../../context/projects/ContextProject'
@@ -29,6 +30,8 @@ const Projects = ({ project }) => {
 
     const { deleteProject } = useContext( ContextProject )
 
+    const navigate = useNavigate()
+
     // Modal la confirmación
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -55,7 +58,7 @@ const Projects = ({ project }) => {
     return ( 
 
         <Card
-            onClick = { () => console.log("Ir a ver el proyecto") }
+            onClick = { () => navigate("/tasks") }
         >
 
             <Text

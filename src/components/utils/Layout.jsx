@@ -89,6 +89,7 @@ const Layout = ({ children, spinner, spinnerText }) => {
                         >
 
                             <Button
+                                color = "yellow.400"
                                 visibility = "hidden"
                                 colorScheme = "transparent"
                                 leftIcon = { <ChevronLeftIcon /> }

@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import authToken from './config/authToken'
 import StateAuth from './context/auth/StateAuth'
 import StateProject from './context/projects/StateProject'
+import Tasks from "./pages/Tasks";
 
 // Revisamos si tenemos token
 const token = localStorage.getItem("token")
@@ -32,6 +33,11 @@ function App() {
             <Route
               path = "/home"
               element = { <Home /> }
+            />
+
+            <Route
+              path = "/tasks"
+              element = { <Tasks /> }
             />
             
           </Routes>
