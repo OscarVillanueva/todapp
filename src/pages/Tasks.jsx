@@ -32,13 +32,13 @@ const Tasks = () => {
                 taskName: "Cambiar el UI de las tarjetas"
             },
             {
-                id: "asf7ss",
+                id: "gas452",
                 taskName: "Testing de tarjetas"
             }
         ],
         done: [
             {
-                id: "asf7ss",
+                id: "jduh79",
                 taskName: "Realizar la actualización del state"
             }
         ],
@@ -56,7 +56,10 @@ const Tasks = () => {
         e.target.classList.add("source")
 
         activateDummyCard( e.target.getAttribute( "data-type" )  )
-        setDragSrcEl( e.target.getAttribute( "id" ) )
+        setDragSrcEl({ 
+            id: e.target.getAttribute( "id" ),
+            stage: e.target.getAttribute( "data-type" )
+        })
 
     }
 
@@ -92,7 +95,10 @@ const Tasks = () => {
         
         e.target.classList.add("over")
 
-        setDragDstEl( e.target.getAttribute( "id" ) )
+        setDragDstEl({ 
+            id: e.target.getAttribute( "id" ),
+            stage: e.target.getAttribute( "data-type" )
+        })
     }
 
     const handleDragLeave = e => {
@@ -108,9 +114,9 @@ const Tasks = () => {
         console.log("source", dragSrcEl)
         console.log("dest", dragDstEl)
 
-        if ( dragSrcEl !== dragDstEl && cardsContainer.current)  {
+        if ( dragSrcEl.id !== dragDstEl.id && cardsContainer.current)  {
 
-            if ( dragDstEl !== "dummy-done" &&  dragDstEl !== "dummy-todo") 
+            if ( dragDstEl.id !== "dummy-done" &&  dragDstEl.id !== "dummy-todo") 
                 normalChange()
 
         }
@@ -122,16 +128,39 @@ const Tasks = () => {
     }
 
     const normalChange = () => {
-        
-        const source = cardsContainer.current.querySelector(`#${dragSrcEl}`)
+
+        // Todo
+        const source = data[ dragSrcEl.stage ].find( task => task.id === dragSrcEl.id )
+
+        // Done
+        const dest = data[ dragDstEl.stage ].find( task => task.id === dragDstEl.id )
+
+        // Done
+        const newDest = data[ dragDstEl.stage ].map( task => task.id !==  dest.id ? task : source )
+
+        // Todo
+        const newSource = data[ dragSrcEl.stage ].map( task => task.id !==  source.id ? task : dest )
+
+        setData({
             
-        const bridge = source.innerHTML
+            todo: dragSrcEl.stage === "todo" ? newSource : newDest,
+            done: dragSrcEl.stage === "todo" ? newDest : newSource
 
-        const dest = cardsContainer.current.querySelector(`#${dragDstEl}`)
+        })
 
-        source.innerHTML = dest.innerHTML
+        console.log("stage", dragSrcEl.stage)
+        console.log("newDest", newDest)
+        console.log("newSource", newSource)
 
-        dest.innerHTML = bridge
+        // const source = cardsContainer.current.querySelector(`#${dragSrcEl.id}`)
+            
+        // const bridge = source.innerHTML
+
+        // const dest = cardsContainer.current.querySelector(`#${dragDstEl.id}`)
+
+        // source.innerHTML = dest.innerHTML
+
+        // dest.innerHTML = bridge
 
     }
 
@@ -208,6 +237,7 @@ const Tasks = () => {
                         {data.todo.map(task => (
 
                             <Card
+                                key = { task.id }
                                 id = { task.id }
                                 data-type = "todo"
                                 onDragStart = { handleDragStart }
@@ -228,6 +258,7 @@ const Tasks = () => {
 
                         <Card
                             id = "dummy-todo"
+                            data-type = "todo"
                             onDragStart = { handleDragStart }
                             onDragEnd = { handleDragEnd }
                             onDragEnter = { handleDragEnter }
@@ -252,6 +283,7 @@ const Tasks = () => {
                         {data.done.map(task => (
                             
                             <Card
+                                key = { task.id }
                                 id = { task.id }
                                 data-type = "done"
                                 onDragStart = { handleDragStart }
@@ -272,6 +304,7 @@ const Tasks = () => {
 
                         <Card
                             id = "dummy-done"
+                            data-type = "done"
                             onDragStart = { handleDragStart }
                             onDragEnd = { handleDragEnd }
                             onDragEnter = { handleDragEnter }
