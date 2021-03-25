@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { Heading, Grid, Box, Text } from "@chakra-ui/react"
+import React, { useRef, useState, useEffect } from 'react'
+import { Heading, Grid, Box, Text, Stack } from "@chakra-ui/react"
 import styled from '@emotion/styled'
 import Layout from '../components/utils/Layout'
 
@@ -24,13 +24,40 @@ const Tasks = () => {
 
     const [dragSrcEl, setDragSrcEl] = useState("")
     const [dragDstEl, setDragDstEl] = useState("")
+    const [data, setData] = useState({
+        
+        todo: [
+            {
+                id: "asf7ss",
+                taskName: "Cambiar el UI de las tarjetas"
+            },
+            {
+                id: "asf7ss",
+                taskName: "Testing de tarjetas"
+            }
+        ],
+        done: [
+            {
+                id: "asf7ss",
+                taskName: "Realizar la actualización del state"
+            }
+        ],
+    })
+
+    useEffect(() => {
+
+        disableDummyCards()
+        
+    }, [cardsContainer])
 
     const handleDragStart = e => {
         
         e.target.style.opacity = "0.4"
         e.target.classList.add("source")
 
+        activateDummyCard( e.target.getAttribute( "data-type" )  )
         setDragSrcEl( e.target.getAttribute( "id" ) )
+
     }
 
     const handleDragEnd = e => {
@@ -46,6 +73,8 @@ const Tasks = () => {
             })
 
         }
+
+        disableDummyCards()
 
     }
 
@@ -76,21 +105,56 @@ const Tasks = () => {
         
         e.stopPropagation()
 
-        if ( dragSrcEl !== dragDstEl && cardsContainer.current) {
+        console.log("source", dragSrcEl)
+        console.log("dest", dragDstEl)
 
-            const source = cardsContainer.current.querySelector(`#${dragSrcEl}`)
-            
-            const bridge = source.innerHTML
+        if ( dragSrcEl !== dragDstEl && cardsContainer.current)  {
 
-            const dest = cardsContainer.current.querySelector(`#${dragDstEl}`)
-
-            source.innerHTML = dest.innerHTML
-
-            dest.innerHTML = bridge
+            if ( dragDstEl !== "dummy-done" &&  dragDstEl !== "dummy-todo") 
+                normalChange()
 
         }
 
+        disableDummyCards()
+
         return false
+
+    }
+
+    const normalChange = () => {
+        
+        const source = cardsContainer.current.querySelector(`#${dragSrcEl}`)
+            
+        const bridge = source.innerHTML
+
+        const dest = cardsContainer.current.querySelector(`#${dragDstEl}`)
+
+        source.innerHTML = dest.innerHTML
+
+        dest.innerHTML = bridge
+
+    }
+
+    const activateDummyCard = whoisMoving => {
+        
+        if ( cardsContainer.current ) 
+
+            if ( whoisMoving === "done" )
+                cardsContainer.current.querySelector("#dummy-todo").style.display = "block"
+                
+            else 
+                cardsContainer.current.querySelector("#dummy-done").style.display = "block"
+
+    }
+
+    const disableDummyCards = () => {
+        
+        if ( cardsContainer.current ){
+
+            cardsContainer.current.querySelector("#dummy-todo").style.display = "none"
+            cardsContainer.current.querySelector("#dummy-done").style.display = "none"
+
+        }
 
     }
 
@@ -134,34 +198,93 @@ const Tasks = () => {
                             Completo
                         </Text>
                     </Box>
-                    <Box>
+
+                    <Stack 
+
+                        spacing = { 4 }
+
+                    >
+
+                        {data.todo.map(task => (
+
+                            <Card
+                                id = { task.id }
+                                data-type = "todo"
+                                onDragStart = { handleDragStart }
+                                onDragEnd = { handleDragEnd }
+                                onDragEnter = { handleDragEnter }
+                                onDragLeave = { handleDragLeave }
+                                onDragOver = { handleDragOver }
+                                onDrop = { handleDrop }
+                                draggable="true"
+                            >
+
+                                { task.taskName }
+
+                            </Card>
+
+                        ))}
+
+
                         <Card
-                            id = "ab"
+                            id = "dummy-todo"
                             onDragStart = { handleDragStart }
                             onDragEnd = { handleDragEnd }
                             onDragEnter = { handleDragEnter }
                             onDragLeave = { handleDragLeave }
                             onDragOver = { handleDragOver }
                             onDrop = { handleDrop }
-                            draggable="true"
+                            draggable = "true"
                         >
-                                Realizar la actulización del state
+
+                            Rehacer tarea
+
                         </Card>
-                    </Box>
-                    <Box>
+
+                    </Stack>
+
+                    <Stack 
+
+                        spacing = { 4 }
+
+                    >
+
+                        {data.done.map(task => (
+                            
+                            <Card
+                                id = { task.id }
+                                data-type = "done"
+                                onDragStart = { handleDragStart }
+                                onDragEnd = { handleDragEnd }
+                                onDragEnter = { handleDragEnter }
+                                onDragLeave = { handleDragLeave }
+                                onDragOver = { handleDragOver }
+                                onDrop = { handleDrop }
+                                draggable="true"
+                            >
+
+                                { task.taskName }
+
+                            </Card>
+                            
+                        ))}
+
+
                         <Card
-                            id = "bc"
+                            id = "dummy-done"
                             onDragStart = { handleDragStart }
                             onDragEnd = { handleDragEnd }
                             onDragEnter = { handleDragEnter }
                             onDragLeave = { handleDragLeave }
                             onDragOver = { handleDragOver }
                             onDrop = { handleDrop }
-                            draggable="true"
+                            draggable = "true"
                         >
-                            Cambiar el UI de las tarjetas
+                            Completar tarea
+
                         </Card>
-                    </Box>
+                    </Stack>
+
                 </Grid>
             </Container>
 
