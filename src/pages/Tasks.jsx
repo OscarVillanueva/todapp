@@ -119,6 +119,8 @@ const Tasks = () => {
             if ( dragDstEl.id !== "dummy-done" &&  dragDstEl.id !== "dummy-todo") 
                 normalChange()
 
+            else pushToOtherList()
+
         }
 
         disableDummyCards()
@@ -129,16 +131,16 @@ const Tasks = () => {
 
     const normalChange = () => {
 
-        // Todo
+        // Columna - Todo - Ejemplo no siempre pasa así
         const source = data[ dragSrcEl.stage ].find( task => task.id === dragSrcEl.id )
 
-        // Done
+        // Columna - Done - Ejemplo no siempre pasa así
         const dest = data[ dragDstEl.stage ].find( task => task.id === dragDstEl.id )
 
-        // Done
+        // Columna - Done - Ejemplo no siempre pasa así
         const newDest = data[ dragDstEl.stage ].map( task => task.id !==  dest.id ? task : source )
 
-        // Todo
+        // Columna - Todo - Ejemplo no siempre pasa así
         const newSource = data[ dragSrcEl.stage ].map( task => task.id !==  source.id ? task : dest )
 
         setData({
@@ -148,19 +150,20 @@ const Tasks = () => {
 
         })
 
-        console.log("stage", dragSrcEl.stage)
-        console.log("newDest", newDest)
-        console.log("newSource", newSource)
+    }
 
-        // const source = cardsContainer.current.querySelector(`#${dragSrcEl.id}`)
-            
-        // const bridge = source.innerHTML
+    const pushToOtherList = () => {
+        
+        const source = data[ dragSrcEl.stage ].find( task => task.id === dragSrcEl.id )
 
-        // const dest = cardsContainer.current.querySelector(`#${dragDstEl.id}`)
+        const newDest = [ ...data[ dragDstEl.stage ], source ]
 
-        // source.innerHTML = dest.innerHTML
+        const bridge = { ...data }
 
-        // dest.innerHTML = bridge
+        bridge[ dragDstEl.stage ] = newDest
+        bridge[ dragSrcEl.stage ] = data[ dragSrcEl.stage ].filter( task => task.id !== source.id )
+
+        setData( bridge )
 
     }
 
