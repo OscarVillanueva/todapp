@@ -1,19 +1,20 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import { Heading, Grid, Box, Text } from "@chakra-ui/react"
 import styled from '@emotion/styled'
 import Layout from '../components/utils/Layout'
 
 const Card = styled.div`
-    border: 3px solid #666;
-    background-color: #ddd;
+    border-bottom: 3px solid #b7791f;
+    background-color: #ECC94B;
     border-radius: .5em;
     padding: 10px;
     cursor: move;
+    text-align: center;
 `
 
 const Container = styled.div`
     .over {
-        border: 3px dotted #666;
+        border: 3px dotted #b7791f;
     }
 `
 
@@ -21,16 +22,15 @@ const Tasks = () => {
 
     const cardsContainer = useRef()
 
-    let dragSrcEl = null
-    let dragDstEl =  null
+    const [dragSrcEl, setDragSrcEl] = useState("")
+    const [dragDstEl, setDragDstEl] = useState("")
 
     const handleDragStart = e => {
         
         e.target.style.opacity = "0.4"
         e.target.classList.add("source")
 
-        dragSrcEl = e.target.getAttribute( "id" )
-
+        setDragSrcEl( e.target.getAttribute( "id" ) )
     }
 
     const handleDragEnd = e => {
@@ -63,8 +63,7 @@ const Tasks = () => {
         
         e.target.classList.add("over")
 
-        dragDstEl = e.target.getAttribute( "id" )
-
+        setDragDstEl( e.target.getAttribute( "id" ) )
     }
 
     const handleDragLeave = e => {
@@ -77,36 +76,17 @@ const Tasks = () => {
         
         e.stopPropagation()
 
-        console.log("source", dragSrcEl)
-        console.log("destino", dragDstEl)
-
         if ( dragSrcEl !== dragDstEl && cardsContainer.current) {
 
             const source = cardsContainer.current.querySelector(`#${dragSrcEl}`)
+            
             const bridge = source.innerHTML
+
             const dest = cardsContainer.current.querySelector(`#${dragDstEl}`)
 
             source.innerHTML = dest.innerHTML
+
             dest.innerHTML = bridge
-
-            console.group("seleccionados")
-
-            console.log("origen", source)
-            console.log("puente", bridge)
-            console.log("dest", dest)
-
-            console.groupEnd("seleccionados")
-
-            // const bridge = dragSrcEl
-            // dragSrcEl.innerHTML = dragDstEl.innerHTML
-            // dragDstEl.innerHTML = bridge.innerHTML
-
-            // setDragSrcEl( dragDstEl )
-            // dragSrcEl.innerHTML = dragDstEl.innerHTML
-
-            // setDragDstEl( bridge )
-            // dragDstEl.innerHTML = bridge.innerHTML
-            // e.target.innerHTML = dragSrcEl.innerHTML
 
         }
 
@@ -154,30 +134,34 @@ const Tasks = () => {
                             Completo
                         </Text>
                     </Box>
-                    <Card
-                        id = "ab"
-                        onDragStart = { handleDragStart }
-                        onDragEnd = { handleDragEnd }
-                        onDragEnter = { handleDragEnter }
-                        onDragLeave = { handleDragLeave }
-                        onDragOver = { handleDragOver }
-                        onDrop = { handleDrop }
-                        draggable="true"
-                    >
-                            Realizar la actulización del state
-                    </Card>
-                    <Card
-                        id = "bc"
-                        onDragStart = { handleDragStart }
-                        onDragEnd = { handleDragEnd }
-                        onDragEnter = { handleDragEnter }
-                        onDragLeave = { handleDragLeave }
-                        onDragOver = { handleDragOver }
-                        onDrop = { handleDrop }
-                        draggable="true"
-                    >
-                        Cambiar el UI de las tarjetas
-                    </Card>
+                    <Box>
+                        <Card
+                            id = "ab"
+                            onDragStart = { handleDragStart }
+                            onDragEnd = { handleDragEnd }
+                            onDragEnter = { handleDragEnter }
+                            onDragLeave = { handleDragLeave }
+                            onDragOver = { handleDragOver }
+                            onDrop = { handleDrop }
+                            draggable="true"
+                        >
+                                Realizar la actulización del state
+                        </Card>
+                    </Box>
+                    <Box>
+                        <Card
+                            id = "bc"
+                            onDragStart = { handleDragStart }
+                            onDragEnd = { handleDragEnd }
+                            onDragEnter = { handleDragEnter }
+                            onDragLeave = { handleDragLeave }
+                            onDragOver = { handleDragOver }
+                            onDrop = { handleDrop }
+                            draggable="true"
+                        >
+                            Cambiar el UI de las tarjetas
+                        </Card>
+                    </Box>
                 </Grid>
             </Container>
 
