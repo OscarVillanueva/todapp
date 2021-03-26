@@ -13,20 +13,18 @@ import {
     Input
   } from "@chakra-ui/react"
 
-const AddProject = ({ isOpen, onOpen, onClose }) => {
+const ModalAdd = ({ isOpen, onOpen, onClose, config }) => {
 
     // Input del modal
-    const [projectName, setProjectName] = useState("")
+    const [name, setName] = useState("")
 
     // Context de projectos
     const { addProject } = useContext( ContextProject )
 
     // Agregar un proyectos
-    const uploadProject = () => {
+    const upload = () => {
 
-        addProject({
-            projectName
-        })
+        config.callback( name )
 
         // Cerramos el modal
         onClose()
@@ -34,7 +32,7 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
     }
 
     // Agregar proyecto si se dio enter
-    const handleKeyDown = e => e.key === "Enter" && uploadProject()
+    const handleKeyDown = e => e.key === "Enter" && upload()
 
     return ( 
 
@@ -52,7 +50,8 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
                 <ModalHeader
                     color = "white"
                 >
-                    Agregar nuevo proyecto
+                    { config.title }
+
                 </ModalHeader>
 
                 <ModalCloseButton 
@@ -65,7 +64,7 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
                         color = "white"
                         fontWeight = "bold"
                     >
-                        Nombre del proyecto
+                        { config.label }
                     </Text>
 
                     <Input
@@ -74,8 +73,8 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
                         id = "projectName"
                         data-cy = "projectName"
                         name = "projectName"
-                        placeholder = "Tu nuevo fantástico proyecto"
-                        onChange = { e => setProjectName( e.target.value ) }
+                        placeholder = { config.placeholder }
+                        onChange = { e => setName( e.target.value ) }
                         onKeyDown = { handleKeyDown }
                     />
                     
@@ -91,8 +90,8 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
                         colorScheme="yellow" 
                         ml={ 3 } 
                         data-cy = "addProject"
-                        onClick = { uploadProject }
-                        disabled = { projectName.trim().length === 0 ? true : false }
+                        onClick = { upload }
+                        disabled = { name.trim().length === 0 ? true : false }
                     >
                         Agregar
                     </Button>
@@ -108,4 +107,4 @@ const AddProject = ({ isOpen, onOpen, onClose }) => {
 
 }
  
-export default AddProject;
+export default ModalAdd;

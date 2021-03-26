@@ -29,7 +29,7 @@ const Projects = ({ project }) => {
 
     const { projectName, creationDate, _id } = project
 
-    const { deleteProject } = useContext( ContextProject )
+    const { deleteProject, changeCurrentProject } = useContext( ContextProject )
 
     const navigate = useNavigate()
 
@@ -55,11 +55,18 @@ const Projects = ({ project }) => {
         message: "¿Estás seguro?, esta acción no se puede deshacer"
 
     }
+    
+
+    const goToTasks = () => {
+        
+        changeCurrentProject( _id )
+        navigate("/tasks") 
+    }
 
     return ( 
 
         <Card
-            onClick = { () => navigate("/tasks") }
+            onClick = { goToTasks }
         >
 
             <Text

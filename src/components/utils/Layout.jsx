@@ -5,11 +5,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import contextAuth from '../../context/auth/ContextAuth'
 import useAuth from '../../hook/useAuth'
 import { GiExitDoor } from "react-icons/gi";
-import AddProject from '../projects/AddProject';
+import ModalAdd from './ModalAdd';
 import LoadingSpinner from '../utils/Spinner'
 
 
-const Layout = ({ children, spinner, spinnerText }) => {
+const Layout = ({ children, spinner, spinnerText, addModalConfig }) => {
     
     // Revisar si estamos autenticados
     useAuth()
@@ -32,14 +32,11 @@ const Layout = ({ children, spinner, spinnerText }) => {
         
         if( addProject.current && back.current ) {
 
-            if( location.pathname === "/home" ) {
+            if( location.pathname === "/home" ) 
                 back.current.style.visibility = "hidden"
-                addProject.current.style.visibility = "visible"
-            }
-            else {
+
+            else 
                 back.current.style.visibility = "visible"
-                addProject.current.style.visibility = "hidden"
-            }
 
         }
 
@@ -107,7 +104,7 @@ const Layout = ({ children, spinner, spinnerText }) => {
 
                         <Tooltip
                             hasArrow
-                            label = "Agregar proyecto"
+                            label = { addModalConfig.tooltip }
                         >
 
                             <Button
@@ -121,7 +118,8 @@ const Layout = ({ children, spinner, spinnerText }) => {
 
                         </Tooltip>
 
-                        <AddProject
+                        <ModalAdd
+                            config = { addModalConfig }
                             isOpen ={ isOpen }
                             onOpen ={ onOpen }
                             onClose ={ onClose }

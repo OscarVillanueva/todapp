@@ -7,7 +7,7 @@ import ContextAuth from '../context/auth/ContextAuth'
 
 const Home = () => {
 
-    const { fetchProjects, message, loading, projects } = useContext( ContextProject )
+    const { fetchProjects, message, loading, projects, addProject } = useContext( ContextProject )
     const { logout } = useContext( ContextAuth )
 
     // Para usar las tostadas de chakra
@@ -40,11 +40,20 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [message])
 
+    const uploadProject = name => addProject({ projectName: name })
+
     return ( 
 
         <Layout
             spinner = { loading }
             spinnerText = "Cargando . . ."
+            addModalConfig = {{
+                title: "Agregar proyecto",
+                label: "Nombre de tu proyecto",
+                placeholder: "Nombre tu fantástico proyecto",
+                tooltip: "Agregar proyecto",
+                callback: uploadProject
+            }}
         >
 
             { projects.length > 0 && (

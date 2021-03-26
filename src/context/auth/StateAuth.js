@@ -112,7 +112,10 @@ const AuthState = props => {
 
         } catch (error) {
 
-            let message = (error.response.data.errors) ? 
+            let message = "Sucedío un error, intent más tarde"
+
+            if( error.response )
+                message = (error.response.data) ? 
                     error.response.data.errors[0].msg : error.response.data.msg 
 
             const alert = {

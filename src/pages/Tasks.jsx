@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { Heading, Grid, Box, Text, Stack } from "@chakra-ui/react"
 import styled from '@emotion/styled'
 import Layout from '../components/utils/Layout'
+import ContextProject from '../context/projects/ContextProject'
 
 const Card = styled.div`
     border-bottom: 3px solid #b7791f;
@@ -21,6 +22,8 @@ const Container = styled.div`
 const Tasks = () => {
 
     const cardsContainer = useRef()
+
+    const { currentProject } = useContext( ContextProject )
 
     const [dragSrcEl, setDragSrcEl] = useState("")
     const [dragDstEl, setDragDstEl] = useState("")
@@ -45,6 +48,8 @@ const Tasks = () => {
     })
 
     useEffect(() => {
+
+        console.log(currentProject)
 
         disableDummyCards()
         
@@ -129,6 +134,7 @@ const Tasks = () => {
 
     }
 
+    // TODO: Mover al state esta lógica
     const normalChange = () => {
 
         // Columna - Todo - Ejemplo no siempre pasa así
@@ -192,15 +198,25 @@ const Tasks = () => {
 
     return ( 
         
-        <Layout>
+        <Layout
+            addModalConfig = {{
+                title: "Agregar tarea",
+                label: "Nombre de la tarea",
+                placeholder: "Nombre la nueva tarea",
+                tooltip: "Agregar tarea",
+                // callback: uploadProject
+            }}
+        >
 
             <Container>
+
                 <Heading
                     align = "center"
                     color = "white"
                 >
                     Tareas
                 </Heading>
+
                 <Grid
                     templateColumns = "repeat( 2, 1fr )"
                     gap = { 8 }
@@ -219,6 +235,7 @@ const Tasks = () => {
                             Por Hacer
                         </Text>
                     </Box>
+                    
                     <Box>
                         <Text
                             align = "center"

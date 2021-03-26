@@ -50,7 +50,7 @@ const ProjectReducer = (state, action) => {
         case CURRENT_PROJECT:
             return {
                 ...state,
-                currentProject: state.projects.filter(project => project._id === action.payload)
+                currentProject: state.projects.filter(project => project._id === action.payload)[0]
             }
 
         case DELETE_PROJECT:
