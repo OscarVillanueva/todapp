@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react'
-import ContextProject from '../../context/projects/ContextProject'
+import React, { useState } from 'react'
 import {
     Modal,
     ModalOverlay,
@@ -17,9 +16,6 @@ const ModalAdd = ({ isOpen, onOpen, onClose, config }) => {
 
     // Input del modal
     const [name, setName] = useState("")
-
-    // Context de projectos
-    const { addProject } = useContext( ContextProject )
 
     // Agregar un proyectos
     const upload = () => {
