@@ -73,18 +73,21 @@ const Tasks = () => {
 
     const handleActionOnDrop = () => {
         
-        if ( dragSrcEl.stage === dragDstEl.stage ) return
+        if ( dragSrcEl.stage === dragDstEl.stage )
+
+            changePosition()
+
+        else 
+
+            if ( dragSrcEl.id !== dragDstEl.id && cardsContainer.current)  {
 
 
-        if ( dragSrcEl.id !== dragDstEl.id && cardsContainer.current)  {
+                if ( dragDstEl.id !== "dummy-done" &&  dragDstEl.id !== "dummy-todo") 
+                    normalChange()
 
+                else pushToOtherList()
 
-            if ( dragDstEl.id !== "dummy-done" &&  dragDstEl.id !== "dummy-todo") 
-                normalChange()
-
-            else pushToOtherList()
-
-        }
+            }
 
         disableDummyCards()
 
@@ -126,6 +129,23 @@ const Tasks = () => {
         bridge[ dragSrcEl.stage ] = data[ dragSrcEl.stage ].filter( task => task.id !== source.id )
 
         setData( bridge )
+
+    }
+
+    const changePosition = () => {
+        
+        const source = data[ dragSrcEl.stage ].findIndex( task => task.id === dragSrcEl.id )
+        const dest = data[ dragDstEl.stage ].findIndex( task => task.id === dragDstEl.id )
+
+        const bridge = [ ...data[ dragSrcEl.stage ] ]
+
+        bridge[ source ] = data[ dragSrcEl.stage ][ dest ]
+        bridge[ dest ] = data[ dragSrcEl.stage ][ source ]
+
+        setData({
+            ...data,
+            [ dragSrcEl.stage ]: bridge
+        })
 
     }
 
