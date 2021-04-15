@@ -20,31 +20,20 @@ const Tasks = () => {
 
     const { currentProject } = useContext( ContextProject )
 
-    const { projectTasks, loading, fetchTask } = useContext( ContextTask )
-
-    const [data, setData] = useState({
-        
-        todo: [
-            {
-                id: "asf7ss",
-                taskName: "Cambiar el UI de las tarjetas"
-            },
-            {
-                id: "gas452",
-                taskName: "Testing de tarjetas"
-            }
-        ],
-        done: [
-            {
-                id: "jduh79",
-                taskName: "Realizar la actualización del state"
-            }
-        ],
-    })
+    const { 
+        loading, 
+        projectTasks, 
+        fetchTask, 
+        addTask, 
+        normalChange, 
+        pushToOtherList, 
+        changePosition, 
+        editTask 
+    } = useContext( ContextTask )
 
     useEffect(() => {
         
-        // fetchTask(currentProject._id)
+        fetchTask(currentProject._id)
 
     }, [currentProject])
 
@@ -54,8 +43,13 @@ const Tasks = () => {
         
     }, [cardsContainer])
 
+    const { dragSrcEl, dragDstEl, events } = useDragAndDrop({
+        startCallback: activateDummyCard,
+        endCallback: handleEnd,
+        dropCallback: handleActionOnDrop
+    })
 
-    const handleEnd = () => {
+    function handleEnd () {
         
         if ( cardsContainer.current ) {
             
@@ -71,21 +65,22 @@ const Tasks = () => {
 
     }
 
-    const handleActionOnDrop = () => {
+    function handleActionOnDrop ()  {
         
         if ( dragSrcEl.stage === dragDstEl.stage )
 
-            changePosition()
+            changePosition( dragSrcEl,  dragDstEl)
 
         else 
 
             if ( dragSrcEl.id !== dragDstEl.id && cardsContainer.current)  {
 
+                updateStatusOfTask( dragSrcEl, dragDstEl )
 
                 if ( dragDstEl.id !== "dummy-done" &&  dragDstEl.id !== "dummy-todo") 
-                    normalChange()
+                    normalChange( dragSrcEl, dragDstEl )
 
-                else pushToOtherList()
+                else pushToOtherList( dragSrcEl, dragDstEl )
 
             }
 
@@ -93,64 +88,8 @@ const Tasks = () => {
 
     }
 
-    // TODO: Mover al state esta lógica
-    const normalChange = () => {
+    function activateDummyCard( whoisMoving ) {
 
-        // Columna - Todo - Ejemplo no siempre pasa así
-        const source = data[ dragSrcEl.stage ].find( task => task.id === dragSrcEl.id )
-
-        // Columna - Done - Ejemplo no siempre pasa así
-        const dest = data[ dragDstEl.stage ].find( task => task.id === dragDstEl.id )
-
-        // Columna - Done - Ejemplo no siempre pasa así
-        const newDest = data[ dragDstEl.stage ].map( task => task.id !==  dest.id ? task : source )
-
-        // Columna - Todo - Ejemplo no siempre pasa así
-        const newSource = data[ dragSrcEl.stage ].map( task => task.id !==  source.id ? task : dest )
-
-        setData({
-            
-            todo: dragSrcEl.stage === "todo" ? newSource : newDest,
-            done: dragSrcEl.stage === "todo" ? newDest : newSource
-
-        })
-
-    }
-
-    const pushToOtherList = () => {
-        
-        const source = data[ dragSrcEl.stage ].find( task => task.id === dragSrcEl.id )
-
-        const newDest = [ ...data[ dragDstEl.stage ], source ]
-
-        const bridge = { ...data }
-
-        bridge[ dragDstEl.stage ] = newDest
-        bridge[ dragSrcEl.stage ] = data[ dragSrcEl.stage ].filter( task => task.id !== source.id )
-
-        setData( bridge )
-
-    }
-
-    const changePosition = () => {
-        
-        const source = data[ dragSrcEl.stage ].findIndex( task => task.id === dragSrcEl.id )
-        const dest = data[ dragDstEl.stage ].findIndex( task => task.id === dragDstEl.id )
-
-        const bridge = [ ...data[ dragSrcEl.stage ] ]
-
-        bridge[ source ] = data[ dragSrcEl.stage ][ dest ]
-        bridge[ dest ] = data[ dragSrcEl.stage ][ source ]
-
-        setData({
-            ...data,
-            [ dragSrcEl.stage ]: bridge
-        })
-
-    }
-
-    const activateDummyCard = whoisMoving => {
-        
         if ( cardsContainer.current ) 
 
             if ( whoisMoving === "done" )
@@ -158,10 +97,10 @@ const Tasks = () => {
                 
             else 
                 cardsContainer.current.querySelector("#dummy-done").style.display = "block"
-
+        
     }
 
-    const disableDummyCards = () => {
+    function disableDummyCards (){
 
         if ( cardsContainer.current ){
 
@@ -172,11 +111,30 @@ const Tasks = () => {
 
     }
 
-    const { dragSrcEl, dragDstEl, events } = useDragAndDrop({
-        startCallback: activateDummyCard,
-        endCallback: handleEnd,
-        dropCallback: handleActionOnDrop
-    })
+    function updateStatusOfTask( dragSrcEl, dragDstEl ) {
+
+        
+        if ( !dragSrcEl.id.includes("dummy") ) {
+
+            const task = projectTasks[ dragSrcEl.stage ].find( e => e._id === dragSrcEl.id )
+            task.state = !task.state
+
+            editTask( task )
+            
+        } 
+
+        if( !dragDstEl.id.includes("dummy") ) {
+            
+            const task = projectTasks[ dragDstEl.stage ].find( e => e._id === dragDstEl.id )
+            task.state = !task.state
+
+            editTask( task )
+
+        }
+
+    }
+
+    const uploadTask = name => addTask({ taskName: name, projectId: currentProject._id })
 
     return ( 
         
@@ -188,7 +146,7 @@ const Tasks = () => {
                 label: "Nombre de la tarea",
                 placeholder: "Nombre la nueva tarea",
                 tooltip: "Agregar tarea",
-                // callback: uploadProject
+                callback: uploadTask
             }}
         >
 
@@ -199,13 +157,13 @@ const Tasks = () => {
                     color = "white"
                 >
                     Proyecto: { " " }
-                    {/* <Text
+                    <Text
                         display = "inline"
                         color = "yellow.400"
                         casing = "uppercase"
                     >
                         { currentProject.projectName }
-                    </Text> */}
+                    </Text>
                 </Heading>
 
                 <Grid
@@ -218,12 +176,12 @@ const Tasks = () => {
                     
                     
                     <TodoList
-                        tasks = { data.todo }
+                        tasks = { projectTasks.todo ? projectTasks.todo : [] }
                         events = { events }
                     />
                     
                     <DoneList
-                        tasks = { data.done }
+                        tasks = { projectTasks.done ? projectTasks.done : [] }
                         events = { events }
                     />
                     

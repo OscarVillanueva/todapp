@@ -39,8 +39,8 @@ const DoneList = ({ tasks,  events}) => {
                 {tasks.map(task => (
 
                     <Card
-                        key = { task.id }
-                        id = { task.id }
+                        key = { task._id }
+                        id = { task._id }
                         data-type = "done"
                         onDragStart = { handleDragStart }
                         onDragEnd = { handleDragEnd }

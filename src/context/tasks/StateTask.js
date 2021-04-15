@@ -38,9 +38,24 @@ const StateTask = props => {
 
             const response = await axiosClient.get("/api/tasks", { params: { projectId } })
 
+            let todo = []
+            let done = []
+
+            response.data.tasks.forEach(task => {
+                
+                if( task.state ) done.push( task )
+
+                else todo.push( task )
+
+            })
+            
+
             dispatch({
                 type: TASK_PROJECT,
-                payload: response.data.tasks
+                payload: {
+                    todo,
+                    done
+                }
             })
 
         } catch (error) {
@@ -54,6 +69,10 @@ const StateTask = props => {
 
         try {
             
+            dispatch({
+                type: START_SPINNER,
+            })
+
             const response = await axiosClient.post("/api/tasks", task)
 
             dispatch ({
@@ -106,10 +125,11 @@ const StateTask = props => {
         try {
             const response = await axiosClient.put(`/api/tasks/${task._id}`, task)
 
-            dispatch({
-                type: EDIT_TASK,
-                payload: response.data.task
-            })
+            // dispatch({
+            //     type: EDIT_TASK,
+            //     payload: response.data.task
+            // })
+
         } catch (error) {
             console.log(error.response);
         }
@@ -131,19 +151,97 @@ const StateTask = props => {
         })
     }
 
+    const normalChange = ( dragSrcEl, dragDstEl ) => {
+
+        const { projectTasks } = state
+
+        // Columna - Todo - Ejemplo no siempre pasa así
+        const source = projectTasks[ dragSrcEl.stage ].find( task => task._id === dragSrcEl.id )
+
+        // Columna - Done - Ejemplo no siempre pasa así
+        const dest = projectTasks[ dragDstEl.stage ].find( task => task._id === dragDstEl.id )
+
+        // Columna - Done - Ejemplo no siempre pasa así
+        const newDest = projectTasks[ dragDstEl.stage ].map( 
+            task => task._id !==  dest._id ? task : source 
+        )
+
+        // Columna - Todo - Ejemplo no siempre pasa así
+        const newSource = projectTasks[ dragSrcEl.stage ].map( 
+            task => task._id !==  source._id ? task : dest 
+        )
+
+        dispatch({
+            type: TASK_PROJECT,
+            payload: {
+            
+                todo: dragSrcEl.stage === "todo" ? newSource : newDest,
+                done: dragSrcEl.stage === "todo" ? newDest : newSource
+    
+            }
+        })
+
+    }
+
+    const pushToOtherList = ( dragSrcEl, dragDstEl ) => {
+
+        const { projectTasks } = state
+
+        const source = projectTasks[ dragSrcEl.stage ].find( task => task._id === dragSrcEl.id )
+
+        const newDest = [ ...projectTasks[ dragDstEl.stage ], source ]
+
+        const bridge = { ...projectTasks }
+
+        bridge[ dragDstEl.stage ] = newDest
+        bridge[ dragSrcEl.stage ] = projectTasks[ dragSrcEl.stage ].filter( task => task._id !== source._id )
+
+        dispatch({
+            type: TASK_PROJECT,
+            payload: bridge
+        })
+
+    }
+
+    const changePosition = ( dragSrcEl, dragDstEl ) => {
+
+        const { projectTasks } = state
+        
+        const source = projectTasks[ dragSrcEl.stage ].findIndex( task => task._id === dragSrcEl.id )
+        const dest = projectTasks[ dragDstEl.stage ].findIndex( task => task._id === dragDstEl.id )
+
+        const bridge = [ ...projectTasks[ dragSrcEl.stage ] ]
+
+        bridge[ source ] = projectTasks[ dragSrcEl.stage ][ dest ]
+        bridge[ dest ] = projectTasks[ dragSrcEl.stage ][ source ]
+
+        dispatch({
+            type: TASK_PROJECT,
+            payload: {
+                ...projectTasks,
+                [ dragSrcEl.stage ]: bridge
+            }
+        })
+        
+    }
+
     return (
         <ContextTask.Provider
             value ={{
                 projectTasks: state.projectTasks,
                 errorTask: state.errorTask,
                 currentTask: state.currentTask,
+                loading: state.loading,
                 fetchTask,
                 addTask,
                 validateTask,
                 deleteTask,
                 changeCurrentTask,
                 editTask,
-                cleanCurrentTask
+                cleanCurrentTask,
+                normalChange,
+                pushToOtherList,
+                changePosition
             }}
         >
             {props.children}

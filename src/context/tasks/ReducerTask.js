@@ -30,7 +30,8 @@ const taskReducer = (state, action) => {
             return {
                 ...state,
                 projectTasks: [...state.projectTasks, action.payload],
-                errorTask: false
+                errorTask: false,
+                loading: false
             }
 
         case VALIDATE_TASK:

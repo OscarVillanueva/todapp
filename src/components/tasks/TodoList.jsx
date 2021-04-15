@@ -38,8 +38,8 @@ const TodoList = ({ tasks, events}) => {
                 {tasks.map(task => (
 
                     <Card
-                        key = { task.id }
-                        id = { task.id }
+                        key = { task._id }
+                        id = { task._id }
                         data-type = "todo"
                         onDragStart = { handleDragStart }
                         onDragEnd = { handleDragEnd }
