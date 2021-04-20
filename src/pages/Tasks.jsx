@@ -147,18 +147,6 @@ const Tasks = () => {
 
     const uploadTask = name => addTask({ taskName: name, projectId: currentProject._id })
 
-    const handleRigthClick = e  => {
-        
-        e.preventDefault()
-
-        setShow( true )
-        setPosition({
-            xPos: e.pageX,
-            yPos: e.pageY
-        })
-
-    }
-
     return ( 
         
         <Layout
@@ -201,13 +189,11 @@ const Tasks = () => {
                     <TodoList
                         tasks = { projectTasks.todo ? projectTasks.todo : [] }
                         events = { events }
-                        handleRigthClick = { handleRigthClick }
                     />
                     
                     <DoneList
                         tasks = { projectTasks.done ? projectTasks.done : [] }
                         events = { events }
-                        handleRigthClick = { handleRigthClick }
                     />
                     
 
