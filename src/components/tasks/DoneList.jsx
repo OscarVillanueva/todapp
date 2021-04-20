@@ -3,7 +3,7 @@ import { Box, Text, Stack } from "@chakra-ui/react"
 import Card from '../utils/Card'
 
 
-const DoneList = ({ tasks,  events}) => {
+const DoneList = ({ tasks,  events, handleRigthClick }) => {
 
     const { 
         handleDragStart, 
@@ -41,13 +41,14 @@ const DoneList = ({ tasks,  events}) => {
                     <Card
                         key = { task._id }
                         id = { task._id }
-                        data-type = "done"
+                        dataType = "done"
                         onDragStart = { handleDragStart }
                         onDragEnd = { handleDragEnd }
                         onDragEnter = { handleDragEnter }
                         onDragLeave = { handleDragLeave }
                         onDragOver = { handleDragOver }
                         onDrop = { handleDrop }
+                        onContextMenu = { handleRigthClick }
                         draggable="true"
                     >
 
@@ -60,13 +61,14 @@ const DoneList = ({ tasks,  events}) => {
 
                 <Card
                     id = "dummy-done"
-                    data-type = "done"
+                    dataType = "done"
                     onDragStart = { handleDragStart }
                     onDragEnd = { handleDragEnd }
                     onDragEnter = { handleDragEnter }
                     onDragLeave = { handleDragLeave }
                     onDragOver = { handleDragOver }
                     onDrop = { handleDrop }
+                    onContextMenu = { handleRigthClick }
                     draggable = "true"
                 >
 

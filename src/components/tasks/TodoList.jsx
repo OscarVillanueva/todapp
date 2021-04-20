@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Text, Stack } from "@chakra-ui/react"
 import Card from '../utils/Card'
 
-const TodoList = ({ tasks, events}) => {
+const TodoList = ({ tasks, events, handleRigthClick }) => {
 
     const { 
         handleDragStart, 
@@ -40,7 +40,7 @@ const TodoList = ({ tasks, events}) => {
                     <Card
                         key = { task._id }
                         id = { task._id }
-                        data-type = "todo"
+                        dataType = "todo"
                         onDragStart = { handleDragStart }
                         onDragEnd = { handleDragEnd }
                         onDragEnter = { handleDragEnter }
@@ -48,6 +48,7 @@ const TodoList = ({ tasks, events}) => {
                         onDragOver = { handleDragOver }
                         onDrop = { handleDrop }
                         draggable="true"
+                        onContextMenu = { handleRigthClick }
                     >
 
                         { task.taskName }
@@ -59,13 +60,14 @@ const TodoList = ({ tasks, events}) => {
 
                 <Card
                     id = "dummy-todo"
-                    data-type = "todo"
+                    dataType = "todo"
                     onDragStart = { handleDragStart }
                     onDragEnd = { handleDragEnd }
                     onDragEnter = { handleDragEnter }
                     onDragLeave = { handleDragLeave }
                     onDragOver = { handleDragOver }
                     onDrop = { handleDrop }
+                    onContextMenu = { handleRigthClick }
                     draggable = "true"
                 >
 

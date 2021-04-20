@@ -1,12 +1,20 @@
-import React, { useRef, useState, useEffect, useContext } from 'react'
-import { Heading, Grid, Box, Text, Stack } from "@chakra-ui/react"
+import React, { useRef, useEffect, useContext, useState } from 'react'
+import { Heading, Grid, Text } from "@chakra-ui/react"
 import styled from '@emotion/styled'
+
+// Components
 import Layout from '../components/utils/Layout'
-import ContextProject from '../context/projects/ContextProject'
-import ContextTask from '../context/tasks/ContextTask'
-import useDragAndDrop from '../hook/useDragAndDrop'
 import TodoList from '../components/tasks/TodoList'
 import DoneList from '../components/tasks/DoneList'
+import ContextMenu from '../components/utils/ContextMenu'
+import Confirmation from '../components/utils/Confirmation'
+
+// Context
+import ContextProject from '../context/projects/ContextProject'
+import ContextTask from '../context/tasks/ContextTask'
+
+// hooks
+import useDragAndDrop from '../hook/useDragAndDrop'
 
 const Container = styled.div`
     .over {
@@ -19,6 +27,9 @@ const Tasks = () => {
     const cardsContainer = useRef()
 
     const { currentProject } = useContext( ContextProject )
+
+    const [show, setShow] = useState(false)
+    const [position, setPosition] = useState({})
 
     const { 
         loading, 
@@ -136,6 +147,18 @@ const Tasks = () => {
 
     const uploadTask = name => addTask({ taskName: name, projectId: currentProject._id })
 
+    const handleRigthClick = e  => {
+        
+        e.preventDefault()
+
+        setShow( true )
+        setPosition({
+            xPos: e.pageX,
+            yPos: e.pageY
+        })
+
+    }
+
     return ( 
         
         <Layout
@@ -178,17 +201,26 @@ const Tasks = () => {
                     <TodoList
                         tasks = { projectTasks.todo ? projectTasks.todo : [] }
                         events = { events }
+                        handleRigthClick = { handleRigthClick }
                     />
                     
                     <DoneList
                         tasks = { projectTasks.done ? projectTasks.done : [] }
                         events = { events }
+                        handleRigthClick = { handleRigthClick }
                     />
                     
 
 
                 </Grid>
             </Container>
+
+            <ContextMenu
+                show = { show }
+                setShow = { setShow }
+                xPos = { position.xPos ? position.xPos : 0 }
+                yPos = { position.yPos ? position.yPos : 0 }
+            />
 
         </Layout>
 
