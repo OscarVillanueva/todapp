@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Heading, useToast } from "@chakra-ui/react"
+import Tour from 'reactour'
 import Layout from '../components/utils/Layout'
 import ProjectList from '../components/projects/ProjectList'
 import ContextProject from '../context/projects/ContextProject'
@@ -9,6 +10,14 @@ const Home = () => {
 
     const { fetchProjects, message, loading, projects, addProject } = useContext( ContextProject )
     const { logout } = useContext( ContextAuth )
+    const [open, setOpen] = useState(true)
+
+    const steps = [
+        {
+            selector: "#title",
+            content: "Esto es un titulo"
+        }
+    ]
 
     // Para usar las tostadas de chakra
     const toast = useToast()
@@ -60,6 +69,7 @@ const Home = () => {
                 <Heading
                     align = "center"
                     color = "white"
+                    id = "title"
                 >
 
                     Proyectos Activos
@@ -69,6 +79,12 @@ const Home = () => {
 
             <ProjectList
                 projects = { projects }
+            />
+
+            <Tour
+                steps = { steps }
+                isOpen = { open }
+                onRequestClose = { () => setOpen( false ) }
             />
 
         </Layout>
