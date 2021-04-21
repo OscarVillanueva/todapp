@@ -32,6 +32,7 @@ const DoneList = ({ tasks,  events, handleRigthClick }) => {
 
             <Stack 
 
+                data-cy = "done-list"
                 spacing = { 4 }
 
             >

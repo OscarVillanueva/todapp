@@ -42,10 +42,12 @@ const Card = ({
     const [options, setOptions] = useState([
         {
             title: task.state ? "Rehacer" : "Completar",
+            cy: "change-status",
             action: handleStatusChange
         },
         {
             title: "Eliminar",
+            cy: "delete-card",
             action: onOpen
         },
     ])

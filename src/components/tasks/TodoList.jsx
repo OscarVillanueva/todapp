@@ -31,6 +31,7 @@ const TodoList = ({ tasks, events, handleRigthClick }) => {
 
             <Stack 
 
+                data-cy = "todo-list"
                 spacing = { 4 }
 
             >

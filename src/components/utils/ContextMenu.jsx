@@ -45,6 +45,7 @@ const ContextMenu = ({ show, setShow ,xPos, yPos, options }) => {
                             key = { shortid.generate() }
                             color = { option.title === "Eliminar" && "red.600" }
                             onClick = { option.action }
+                            data-cy = { option.cy }
                         >
                             { option.title }
                         </MenuItem>
