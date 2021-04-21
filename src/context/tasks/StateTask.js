@@ -9,7 +9,7 @@ import {
     VALIDATE_TASK,
     DELETE_TASK,
     CURRENT_TASK,
-    EDIT_TASK,
+    STATE_TASK,
     CLEAN_TASK,
     START_SPINNER
 } from "../../types";
@@ -17,7 +17,7 @@ import {
 const StateTask = props => {
 
     const initialState = {
-        projectTasks: [], 
+        projectTasks: {}, 
         errorTask: false,
         currentTask: null,
         loading: false
@@ -131,23 +131,46 @@ const StateTask = props => {
     }
 
     // Cambiar el estado de una tarea
-    // const changeTaskStatus = task => {
-    //     dispatch({
-    //         type: STATE_TASK,
-    //         payload: task
-    //     })
-    // }
+    const changeTaskStatus = async (task, stage) => {
+
+        try {
+            
+            dispatch({
+                type: START_SPINNER,
+            })
+    
+            await axiosClient.put(`/api/tasks/${task._id}`, {
+                ...task,
+                state: !task.state
+            })
+
+            const temp = state.projectTasks[ stage ].find( e => e._id === task._id )
+            temp.state = !temp.state
+
+            pushToOtherList( { 
+                id: task._id, 
+                stage,
+            },
+            {
+                id: "dummy",
+                stage: stage === "todo" ? "done" : "todo"
+            })
+
+        } catch (error) {
+            
+            console.log(error)
+
+        }
+
+
+    }
 
     // Modifica una tarea
     const editTask = async task => {
 
         try {
-            const response = await axiosClient.put(`/api/tasks/${task._id}`, task)
 
-            // dispatch({
-            //     type: EDIT_TASK,
-            //     payload: response.data.task
-            // })
+            const response = await axiosClient.put(`/api/tasks/${task._id}`, task)
 
         } catch (error) {
             console.log(error.response);
@@ -260,7 +283,8 @@ const StateTask = props => {
                 cleanCurrentTask,
                 normalChange,
                 pushToOtherList,
-                changePosition
+                changePosition,
+                changeTaskStatus
             }}
         >
             {props.children}

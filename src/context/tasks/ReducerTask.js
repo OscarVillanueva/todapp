@@ -5,6 +5,7 @@ import {
     DELETE_TASK,
     CURRENT_TASK,
     EDIT_TASK,
+    STATE_TASK,
     CLEAN_TASK,
     START_SPINNER
 } from "../../types";
@@ -40,6 +41,7 @@ const taskReducer = (state, action) => {
             }
 
         case DELETE_TASK:
+        case STATE_TASK:
             return {
                 ...state,
                 projectTasks: action.payload,

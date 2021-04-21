@@ -32,7 +32,7 @@ const Card = ({
         children
 }) => {
 
-    const { loading, deleteTask } = useContext( ContextTask )
+    const { changeTaskStatus, deleteTask } = useContext( ContextTask )
     const { currentProject } = useContext( ContextProject )
 
 
@@ -79,7 +79,10 @@ const Card = ({
 
     function handleStatusChange () {
         
-        console.log("Cambiar estado")
+        changeTaskStatus(
+            task,
+            task.state ? "done" : "todo",
+        )
 
     }
 
