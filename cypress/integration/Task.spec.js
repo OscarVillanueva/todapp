@@ -16,6 +16,23 @@ describe('<Tasks />', () => {
 
     })
 
+    it( "<ProjectList /> - Create a project", () => {
+
+        // Revisamos que no haya proyectos
+        cy.get( "[data-cy=project]" ).should("have.length", 0)
+        
+        // Sacamos la alerta
+        cy.get( "[data-cy=add-project-btn]" ).click()
+        cy.get( "[data-cy=projectName]" ).type("Test")
+        cy.get( "[data-cy=addProject]" ).click()
+
+        cy.wait( 2000 )
+
+        // Revisamos que haya un proyecto
+        cy.get( "[data-cy=project]" ).should("have.length", 1)
+
+    })
+
     it('<TodoList /> - Create a task', () => {
         
         // Entramos al primer proyecto
