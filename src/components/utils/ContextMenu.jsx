@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { MenuButton, Menu, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react"
+import shortid from 'shortid'
+import { MenuButton, Menu, MenuList, MenuItem } from "@chakra-ui/react"
 
 const Container = styled.div`
     
@@ -8,7 +9,7 @@ const Container = styled.div`
 
 `
 
-const ContextMenu = ({ show, setShow ,xPos, yPos }) => {
+const ContextMenu = ({ show, setShow ,xPos, yPos, options }) => {
 
     const openContextMenu = useRef()
 
@@ -38,20 +39,17 @@ const ContextMenu = ({ show, setShow ,xPos, yPos }) => {
 
                 <MenuList>
 
-                    <MenuItem>
-                        Completar
-                    </MenuItem>
+                    {options.map(option => (
 
-                    <MenuItem>
-                        Editar
-                    </MenuItem>
-
-                    <MenuItem
-                        color = "red.600"
-                        onClick = { () => console.log("cerrar") }
-                    >
-                        Eliminar
-                    </MenuItem>
+                        <MenuItem
+                            key = { shortid.generate() }
+                            color = { option.title === "Eliminar" && "red.600" }
+                            onClick = { option.action }
+                        >
+                            { option.title }
+                        </MenuItem>
+                        
+                    ))}
 
                 </MenuList>
             </Menu>

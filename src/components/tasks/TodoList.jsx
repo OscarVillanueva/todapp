@@ -39,7 +39,7 @@ const TodoList = ({ tasks, events, handleRigthClick }) => {
 
                     <Card
                         key = { task._id }
-                        id = { task._id }
+                        task = { task }
                         dataType = "todo"
                         onDragStart = { handleDragStart }
                         onDragEnd = { handleDragEnd }
@@ -58,7 +58,7 @@ const TodoList = ({ tasks, events, handleRigthClick }) => {
 
 
                 <Card
-                    id = "dummy-todo"
+                    task = {{ _id: "dummy-todo" }}
                     dataType = "todo"
                     onDragStart = { handleDragStart }
                     onDragEnd = { handleDragEnd }

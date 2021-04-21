@@ -75,9 +75,17 @@ const StateTask = props => {
 
             const response = await axiosClient.post("/api/tasks", task)
 
+            const bridge = {
+                ...state.projectTasks,
+                todo: [
+                    ...state.projectTasks.todo,
+                    response.data.task
+                ]
+            }
+
             dispatch ({
                 type: ADD_TASK,
-                payload: response.data.task
+                payload: bridge
             })
 
         } catch (error) {
@@ -94,15 +102,26 @@ const StateTask = props => {
     }
 
     // Eliminar tarea por id
-    const deleteTask = async (id, currentProject) => {
+    const deleteTask = async ( id, stage, currentProject ) => {
         
         try {
+
+            dispatch({
+                type: START_SPINNER,
+            })
             
             await axiosClient.delete(`/api/tasks/${id}`, {params: { projectId: currentProject }})
 
+            const newTasks = state.projectTasks[ stage ].filter( task => task._id !== id )
+
+            const bridge = {
+                ...state.projectTasks,
+                [ stage ]: newTasks
+            }
+
             dispatch({
                 type: DELETE_TASK,
-                payload: id
+                payload: bridge
             }) 
 
         } catch (error) {
