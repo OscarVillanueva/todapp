@@ -1,6 +1,5 @@
 import React from 'react'
 import { Heading, Stack, Text } from '@chakra-ui/layout';
-import styled from '@emotion/styled'
 
 const CardTourRigthClick = () => {
     return ( 

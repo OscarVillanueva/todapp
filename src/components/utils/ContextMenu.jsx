@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from '@emotion/styled'
 import shortid from 'shortid'
 import { MenuButton, Menu, MenuList, MenuItem } from "@chakra-ui/react"

@@ -9,7 +9,6 @@ import {
     VALIDATE_TASK,
     DELETE_TASK,
     CURRENT_TASK,
-    STATE_TASK,
     CLEAN_TASK,
     START_SPINNER
 } from "../../types";
@@ -170,7 +169,7 @@ const StateTask = props => {
 
         try {
 
-            const response = await axiosClient.put(`/api/tasks/${task._id}`, task)
+            await axiosClient.put(`/api/tasks/${task._id}`, task)
 
         } catch (error) {
             console.log(error.response);

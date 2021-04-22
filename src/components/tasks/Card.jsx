@@ -39,7 +39,7 @@ const Card = ({
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [show, setShow] = useState(false)
     const [position, setPosition] = useState({})
-    const [options, setOptions] = useState([
+    const [ options ] = useState([
         {
             title: task.state ? "Rehacer" : "Completar",
             cy: "change-status",

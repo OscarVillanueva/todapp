@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext, useState } from 'react'
+import React, { useRef, useEffect, useContext } from 'react'
 import { Heading, Grid, Text } from "@chakra-ui/react"
 import styled from '@emotion/styled'
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import Layout from '../components/utils/Layout'
 import TodoList from '../components/tasks/TodoList'
 import DoneList from '../components/tasks/DoneList'
-import ContextMenu from '../components/utils/ContextMenu'
 
 // Context
 import ContextProject from '../context/projects/ContextProject'
@@ -28,9 +27,6 @@ const Tasks = () => {
     const cardsContainer = useRef()
 
     const { currentProject } = useContext( ContextProject )
-
-    const [show, setShow] = useState(false)
-    const [position, setPosition] = useState({})
 
     // Tour
     const { AppTour } = useTour("tasks")
@@ -55,6 +51,7 @@ const Tasks = () => {
 
         else navigate("/home") 
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentProject])
 
     useEffect(() => {
@@ -210,13 +207,6 @@ const Tasks = () => {
 
                 </Grid>
             </Container>
-
-            <ContextMenu
-                show = { show }
-                setShow = { setShow }
-                xPos = { position.xPos ? position.xPos : 0 }
-                yPos = { position.yPos ? position.yPos : 0 }
-            />
 
             { !loading && (
                 

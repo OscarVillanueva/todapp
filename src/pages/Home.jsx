@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Heading, useToast } from "@chakra-ui/react"
 
 // Components
@@ -16,7 +16,6 @@ const Home = () => {
 
     const { fetchProjects, message, loading, projects, addProject } = useContext( ContextProject )
     const { logout } = useContext( ContextAuth )
-
 
     // Para usar las tostadas de chakra
     const toast = useToast()
