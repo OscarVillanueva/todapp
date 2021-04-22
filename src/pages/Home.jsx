@@ -1,26 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Heading, useToast } from "@chakra-ui/react"
-import Tour from 'reactour'
+
+// Components
 import Layout from '../components/utils/Layout'
 import ProjectList from '../components/projects/ProjectList'
+
+// Context
 import ContextProject from '../context/projects/ContextProject'
 import ContextAuth from '../context/auth/ContextAuth'
+
+// Hooks
+import useTour from '../hook/useTour'
 
 const Home = () => {
 
     const { fetchProjects, message, loading, projects, addProject } = useContext( ContextProject )
     const { logout } = useContext( ContextAuth )
-    const [open, setOpen] = useState(true)
 
-    const steps = [
-        {
-            selector: "#title",
-            content: "Esto es un titulo"
-        }
-    ]
 
     // Para usar las tostadas de chakra
     const toast = useToast()
+
+    // Tour
+    const { AppTour } = useTour("home")
 
     // Descargamos los projectos
     useEffect(() => {
@@ -81,11 +83,12 @@ const Home = () => {
                 projects = { projects }
             />
 
-            <Tour
-                steps = { steps }
-                isOpen = { open }
-                onRequestClose = { () => setOpen( false ) }
-            />
+            { !loading && (
+                
+                <AppTour />
+
+            )}
+
 
         </Layout>
 

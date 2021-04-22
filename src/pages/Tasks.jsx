@@ -15,6 +15,7 @@ import ContextTask from '../context/tasks/ContextTask'
 
 // hooks
 import useDragAndDrop from '../hook/useDragAndDrop'
+import useTour from '../hook/useTour'
 
 const Container = styled.div`
     .over {
@@ -30,6 +31,9 @@ const Tasks = () => {
 
     const [show, setShow] = useState(false)
     const [position, setPosition] = useState({})
+
+    // Tour
+    const { AppTour } = useTour("tasks")
 
     const { 
         loading, 
@@ -183,6 +187,7 @@ const Tasks = () => {
                     mt = { 16 }
                     maxHeight = "85%"
                     ref = { cardsContainer }
+                    id = "task-list"
                 >
                     
                     
@@ -207,6 +212,12 @@ const Tasks = () => {
                 xPos = { position.xPos ? position.xPos : 0 }
                 yPos = { position.yPos ? position.yPos : 0 }
             />
+
+            { !loading && (
+                
+                <AppTour />
+
+            )}
 
         </Layout>
 

@@ -113,6 +113,7 @@ const Card = ({
                 onDrop = { onDrop }
                 onContextMenu = { handleRigthClick }
                 draggable = { draggable }
+                className = "tour-card"
             >
 
                 { children }

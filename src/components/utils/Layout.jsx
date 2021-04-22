@@ -48,6 +48,7 @@ const Layout = ({ children, spinner, spinnerText, addModalConfig }) => {
     const endSesion = () => {
         
         logout()
+        localStorage.removeItem( "tourViewed" )
         navigate("/")
 
     }
@@ -112,6 +113,7 @@ const Layout = ({ children, spinner, spinnerText, addModalConfig }) => {
                                 onClick = { onOpen }
                                 colorScheme = "yellow"
                                 ref = { addProject }
+                                id = "add-button"
                             >
                                 <AddIcon />
                             </Button>
@@ -133,6 +135,7 @@ const Layout = ({ children, spinner, spinnerText, addModalConfig }) => {
                             <Button
                                 colorScheme = "transparent"
                                 onClick = { endSesion }
+                                id = "logout-button"
                             >
                                 <Icon
                                     as = { GiExitDoor }

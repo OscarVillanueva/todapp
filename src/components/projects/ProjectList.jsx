@@ -36,6 +36,7 @@ const ProjectList = ({ projects }) => {
                 maxHeight = "85%"
                 // overflow = "scroll"
                 ref = { grid }
+                id = "project-list"
             >
 
                 {projects.map( project  => (
