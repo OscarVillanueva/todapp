@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useContext, useState } from 'react'
 import { Heading, Grid, Text } from "@chakra-ui/react"
 import styled from '@emotion/styled'
+import { useNavigate } from "react-router-dom";
 
 // Components
 import Layout from '../components/utils/Layout'
 import TodoList from '../components/tasks/TodoList'
 import DoneList from '../components/tasks/DoneList'
 import ContextMenu from '../components/utils/ContextMenu'
-import Confirmation from '../components/utils/Confirmation'
 
 // Context
 import ContextProject from '../context/projects/ContextProject'
@@ -35,6 +35,8 @@ const Tasks = () => {
     // Tour
     const { AppTour } = useTour("tasks")
 
+    const navigate = useNavigate()
+
     const { 
         loading, 
         projectTasks, 
@@ -47,8 +49,11 @@ const Tasks = () => {
     } = useContext( ContextTask )
 
     useEffect(() => {
-        
-        fetchTask(currentProject._id)
+
+        if( currentProject )
+            fetchTask(currentProject._id)
+
+        else navigate("/home") 
 
     }, [currentProject])
 
@@ -177,7 +182,7 @@ const Tasks = () => {
                         color = "yellow.400"
                         casing = "uppercase"
                     >
-                        { currentProject.projectName }
+                        { currentProject && currentProject.projectName}
                     </Text>
                 </Heading>
 
