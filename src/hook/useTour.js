@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Tour from 'reactour'
+import moment from 'moment'
+
+// Context
+import ContextAuth from '../context/auth/ContextAuth'
 
 // components
 import Welcome from '../components/tour/dashboard/Welcolme'
@@ -13,22 +17,51 @@ import CardTourRigthClick from '../components/tour/tasks/CardTourRigthClick';
 
 const useTour = page => {
 
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
+
+    const { user } = useContext( ContextAuth )
 
     useEffect(() => {
         
-        const wasView = JSON.parse( localStorage.getItem("tourViewed") )
+        if( user ) startTour( user )
 
-        if ( !wasView ) setOpen( true )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user])
 
-        else {
+    const checkUserSignUp = user => {
+        
+        const rawSignUp = new Date( user.signUp )
+        
+        const signUp = moment( rawSignUp ).format( "DD/MM/YY" )
+        const today = moment( Date.now() ).format( "DD/MM/YY" )
 
-            if( wasView.includes( page ) ) setOpen( false ) 
-            else setOpen( true )
+        console.log(`signUp === today`, signUp === today)
+
+        if( signUp === today )
+            return true
+
+        return false
+
+    }
+
+    const startTour = user => {
+
+        if( checkUserSignUp(user) ) {
+
+            const wasView = JSON.parse( localStorage.getItem("tourViewed") )
+    
+            if ( !wasView ) setOpen( true )
+    
+            else {
+    
+                if( wasView.includes( page ) ) setOpen( false ) 
+                else setOpen( true )
+    
+            }
 
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+
+    }
 
     const handleClose = () => {
         
