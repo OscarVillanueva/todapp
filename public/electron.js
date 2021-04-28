@@ -1,7 +1,10 @@
-const { app, BrowserWindow } = require("electron")
+const { app, Menu, BrowserWindow } = require("electron")
 
 const path = require("path")
 const isDev = require("electron-is-dev")
+const url = require("url")
+
+const isMac = process.platform === "darwin"
 
 let appWindow
 
@@ -15,12 +18,17 @@ function windowApp() {
         simpleFullscreen: true,
         center: true,
         show: true,
-        tabbingIdentifier: "Todaap"
-        // resizable: false
+        tabbingIdentifier: "Todaap",
+        icon: isMac ? "icon.icns" : "icon.png",
+        webPreferences: {
+            nodeIntegration: true
+        }
     })
 
-    appWindow.loadURL( isDev ? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}` )
-    // appWindow.loadURL( "./index.html" )
+    if( isDev )
+        appWindow.loadURL( 
+            isDev ? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}` 
+        )
 
     if( isDev ) appWindow.webContents.openDevTools()
 

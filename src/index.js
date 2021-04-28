@@ -8,7 +8,7 @@ import theme from './config/theme'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
+    <Router basename = "/">
       <ChakraProvider theme = { theme }>
         <App />
       </ChakraProvider>
