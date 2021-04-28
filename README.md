@@ -1,4 +1,35 @@
-# Getting Started with Create React App
+# Todapp - Aplication to Projects and tasks management
+
+Todapp is an aplication focused in create projects and tasks.
+
+The app was created with React enviroment ( create react app ) because the app is wrapped by electron, this with the purpose to run in the desktop, is important to say that the app needs the backend side this part of the code is this [repo](https://github.com/OscarVillanueva/server) 
+
+Tecnlogies summary:
+
+- React ( Create React App )
+- Electron
+- Formik - Yup
+- Chakra UI
+- Styled Components 
+- Cypress Testing 
+- Axios
+- React Router Dom (v6 - beta)
+- Reactour
+
+## Dashboard
+
+The first page of the app is the dashboard in here the user is capable to create projects
+
+![dashboard](readme/dash.png)
+
+## Task dashboard
+
+Here the user see and manage the tasks, the cards support **drag and drop** to change the task of column also the task can change the state with right click
+
+![dashboard](readme/task.png)
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
